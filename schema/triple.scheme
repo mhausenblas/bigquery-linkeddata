@@ -1,0 +1,5 @@
+[
+  { "id": "subject", "type": "string", "mode": "REQUIRED" },
+  { "id": "predicate", "type": "string", "mode": "REQUIRED" },
+  { "id": "object", "type": "string", "mode": "REQUIRED" }
+]
