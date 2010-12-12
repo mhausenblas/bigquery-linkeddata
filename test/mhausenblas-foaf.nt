@@ -1,0 +1,98 @@
+<http://sw-app.org/mic.xhtml> <http://www.w3.org/1999/xhtml/vocab#meta> <http://sw-app.org/mic.rdf> .
+<http://sw-app.org/mic.xhtml> <http://www.w3.org/1999/xhtml/vocab#rdfs:seeAlso> <http://sw-app.org/mic.rdf> .
+<http://sw-app.org/mic.xhtml> <http://purl.org/dc/terms/title> "Michael Hausenblas" .
+<http://sw-app.org/mic.xhtml> <http://www.w3.org/1999/xhtml/vocab#meta> <http://sw-app.org/mic.rdf> .
+<http://sw-app.org/mic.xhtml> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw-app.org/mic.rdf> .
+<http://sw-app.org/mic.xhtml> <http://xmlns.com/foaf/0.1/primaryTopic> <http://sw-app.org/mic.xhtml#i> .
+<http://sw-app.org/mic.xhtml#i> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://sw-app.org/mic.xhtml#i> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdf.data-vocabulary.org/#Person> .
+<http://sw-app.org/mic.xhtml#i> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Michael_Hausenblas#me> .
+<http://sw-app.org/mic.xhtml#i> <http://www.w3.org/2002/07/owl#sameAs> <http://community.linkeddata.org/dataspace/person/mhausenblas#this> .
+<http://sw-app.org/mic.xhtml#i> <http://www.w3.org/2002/07/owl#sameAs> <http://data.semanticweb.org/person/michael-hausenblas> .
+<http://sw-app.org/mic.xhtml#i> <http://www.w3.org/2002/07/owl#sameAs> <http://twitter.com/mhausenblas#this> .
+<http://sw-app.org/mic.xhtml#i> <http://www.w3.org/2002/07/owl#sameAs> <http://identi.ca/user/12704> .
+<http://sw-app.org/mic.xhtml#i> <http://www.w3.org/2002/07/owl#sameAs> <http://www.twine.com/item/1z609mlm-7n8> .
+<http://sw-app.org/mic.xhtml#i> <http://www.w3.org/2002/07/owl#sameAs> <http://www.ivan-herman.net/foafExtras.rdf#hausenblas> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/name> "Michael Hausenblas"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://sw-app.org/mic.xhtml#i> <http://rdf.data-vocabulary.org/#name> "Michael Hausenblas"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/workplaceHomepage> <http://www.deri.ie/about/team/member/michael_hausenblas/> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/homepage> <http://sw-app.org/about.html> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/weblog> <http://webofdata.wordpress.com/> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/openid> <http://mhausenblas.myopenid.com/> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/mbox> <mailto:michael.hausenblas@deri.org> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/nick> "mhausenblas" .
+<http://sw-app.org/mic.xhtml#i> <http://rdf.data-vocabulary.org/#nickname> "mhausenblas" .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/depiction> <http://sw-app.org/img/mic_2009_02_small.jpg> .
+<http://sw-app.org/mic.xhtml#i> <http://usefulinc.com/ns/doap#maintainer> <http://latc-project.eu/#this> .
+<http://sw-app.org/mic.xhtml#i> <http://usefulinc.com/ns/doap#maintainer> <http://code.google.com/p/void-impl/#ve2> .
+<http://sw-app.org/mic.xhtml#i> <http://usefulinc.com/ns/doap#maintainer> <http://code.google.com/p/void-impl/#voX> .
+<http://sw-app.org/mic.xhtml#i> <http://usefulinc.com/ns/doap#maintainer> <http://code.google.com/p/alodin/#this> .
+<http://sw-app.org/mic.xhtml#i> <http://usefulinc.com/ns/doap#developer> <http://dig.csail.mit.edu/2005/ajar/ajaw/data#Tabulator> .
+<http://sw-app.org/mic.xhtml#i> <http://open.vocab.org/terms/businessCard> <http://sw-app.org/mic.xhtml#businesscard> .
+<http://sw-app.org/mic.xhtml#businesscard> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard> .
+<http://sw-app.org/mic.xhtml#businesscard> <http://www.w3.org/2006/vcard/ns#org> <http://sw-app.org/mic.xhtml#org> .
+<http://sw-app.org/mic.xhtml#org> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#Organization> .
+<http://sw-app.org/mic.xhtml#org> <http://www.w3.org/2006/vcard/ns#organization-name> "Digital Enterprise Research Institute (DERI), National University of Ireland, Galway"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://sw-app.org/mic.xhtml#org> <http://www.w3.org/2002/07/owl#sameAs> <http://dbpedia.org/resource/Digital_Enterprise_Research_Institute> .
+<http://sw-app.org/mic.xhtml#businesscard> <http://www.w3.org/2006/vcard/ns#workAdr> <http://sw-app.org/mic.xhtml#postaladress> .
+<http://sw-app.org/mic.xhtml#postaladress> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#Address> .
+<http://sw-app.org/mic.xhtml#postaladress> <http://www.w3.org/2006/vcard/ns#street-address> "IDA Business Park, Lower Dangan" .
+<http://sw-app.org/mic.xhtml#postaladress> <http://www.w3.org/2006/vcard/ns#locality> "Galway" .
+<http://sw-app.org/mic.xhtml#postaladress> <http://www.w3.org/2006/vcard/ns#country-name> "Ireland" .
+<http://sw-app.org/mic.xhtml#businesscard> <http://www.w3.org/2006/vcard/ns#workTel> "+353 91 495730" .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/based_near> <http://dbpedia.org/resource/Galway> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/based_near> _:node15j2l682ex230810 .
+_:node15j2l682ex230810 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "53.2719444" .
+_:node15j2l682ex230810 <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-9.0488889" .
+_:node15j2l682ex230811 <http://www.w3.org/ns/auth/cert#identity> <http://sw-app.org/mic.xhtml#i> .
+_:node15j2l682ex230811 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/auth/rsa#RSAPublicKey> .
+_:node15j2l682ex230811 <http://www.w3.org/ns/auth/rsa#public_exponent> _:node15j2l682ex230812 .
+_:node15j2l682ex230812 <http://www.w3.org/ns/auth/cert#decimal> "65537" .
+_:node15j2l682ex230811 <http://www.w3.org/ns/auth/rsa#modulus> _:node15j2l682ex230813 .
+_:node15j2l682ex230813 <http://www.w3.org/ns/auth/cert#hex> "B3AF3F4B90D6ED01A5FF4E1486D10854DC28B5F9A7C92779759 B09224C7A80A52554F9175AB1FAB93E06528438C6182014067A A428863C0AD3B16F3BBE43F99A9D49D4F641114D871B2932994 352DDDFF5BD1A3F54584FCA9CF67C96B96B84EE666A3514EB23 C95D1B7752AFEED90341E8AD1CDDBAF50790AABED112E2AA904 65ECA0330733F1D64AEDA4BDC3086499909E2502BD7B1FEF7F4 BA6DE8B811E7C5E9A43D746FD82B8D1BE753F96C0D3120D30A9 A794325B8222ED926114F4D70830CE9D2567E11D5220C7BCA09 C9B1665A8A88E3A76556191876A9CCF18BDA5B860D7A88F4AAB 95F6A7AB45F2BE82E5DA1D47C5250CBFB3B1D15DC3F826FC72D0D" .
+_:node15j2l682ex230811 <http://purl.org/dc/terms/valid> "P1Y/2011-05-29"^^<urn:iso:std:iso:8601#timeInterval> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://ben.adida.net/card.xhtml#i> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://id.ecs.soton.ac.uk/person/3489> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://mamund.com/foaf.rdf#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www.informatik.uni-leipzig.de/~auer/foaf.rdf#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://dannyayers.com/me#> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www.bizer.de#chris> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www.semantic-web.at/people/blumauer/card#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://captsolo.net/semweb/foaf-captsolo.rdf#Uldis_Bojars> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://danbri.org/foaf.rdf#danbri> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Paul_Buitelaar#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://tobias.buerger.googlepages.com/foaf.rdf#tobi> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://csarven.ca/#i> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://foaf.me/melvincarvalho#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://foafing-the-music.iua.upf.edu/data/foaf/blogger/ocelma.rdf#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://richard.cyganiak.de/foaf.rdf#cygri> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Stefan_Decker#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www-sop.inria.fr/acacia/personnel/Fabien.Gandon/> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://harth.org/andreas/foaf#ah> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://kmi.open.ac.uk/people/tom/> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www.cs.rpi.edu/~hendler/foaf.rdf#jhendler> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www.ivan-herman.net/Ivan_Herman> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://nelix.id.au/foaf.rdf#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://research.yahoo.com/Peter_Mika> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Knud_M%F6ller#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://webr3.org/nathan#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://bnode.org/grawiki/bengee#self> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://eyaloren.org/foaf.rdf#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://apassant.net/alex> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://homepages.cwi.nl/~steven/> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://polleres.net/foaf.rdf#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://moustaki.org/foaf.rdf#moustaki> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www.leobard.net/rdf/foaf.xml#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://www.cs.vu.nl/swhome/person/guus> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://homepages.cwi.nl/~troncy/troncyr-foaf.rdf#rt> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://g1o.net/foaf.rdf#me> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/knows> <http://data.semanticweb.org/person/denny-vrandecic> .
+<http://sw-app.org/mic.xhtml#i> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://semanticweb.org/wiki/Special:ExportRDF/Michael_Hausenblas> .
+<http://sw-app.org/mic.xhtml#i> <http://xmlns.com/foaf/0.1/interest> _:node15j2l682ex230814 .
+_:node15j2l682ex230814 <http://purl.org/dc/terms/title> "Semantic Web" .
+_:node15j2l682ex230814 <http://purl.org/dc/terms/title> "linked data" .
+_:node15j2l682ex230814 <http://purl.org/dc/terms/title> "multimedia" .
+_:node15j2l682ex230814 <http://purl.org/dc/terms/title> "Social Web" .
+<http://sw-app.org/mic.xhtml> <http://purl.org/dc/terms/creator> <http://sw-app.org/mic.xhtml#i> .
+<http://sw-app.org/mic.xhtml> <http://purl.org/dc/terms/date> "2010-09-12"^^<http://www.w3.org/2001/XMLSchema#date> .
