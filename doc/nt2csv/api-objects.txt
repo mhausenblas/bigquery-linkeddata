@@ -1,7 +1,9 @@
 nt2csv	nt2csv-module.html
 nt2csv.main	nt2csv-module.html#main
 nt2csv.NTriple2CSV	nt2csv.NTriple2CSV-class.html
+nt2csv.NTriple2CSV.convertfile	nt2csv.NTriple2CSV-class.html#convertfile
 nt2csv.NTriple2CSV.convert	nt2csv.NTriple2CSV-class.html#convert
 nt2csv.NTriple2CSV.strip_anglebr	nt2csv.NTriple2CSV-class.html#strip_anglebr
-nt2csv.NTriple2CSV.__init__	nt2csv.NTriple2CSV-class.html#__init__
 nt2csv.NTriple2CSV.strip_datatype	nt2csv.NTriple2CSV-class.html#strip_datatype
+nt2csv.NTriple2CSV.create_outfilename	nt2csv.NTriple2CSV-class.html#create_outfilename
+nt2csv.NTriple2CSV.__init__	nt2csv.NTriple2CSV-class.html#__init__
