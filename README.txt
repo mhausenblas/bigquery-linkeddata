@@ -1,4 +1,4 @@
-In order to perform the following steps, you need a Google Storage as well as an Big Query account.
+In order to perform the following steps, you need a Google Storage as well as a BigQuery account.
 Let us further assume that you've checked out the source from https://bigquery-linkeddata.googlecode.com/hg/ 
 into the $bgl directory, which we will use as the base directory in the following. 
 
@@ -22,25 +22,32 @@ replace it with the actual name of your bucket.
 
 Step 3: Create the RDF table
 
-To create the RDF table you need to specify a table schema. For now, only the simple Triple schema is supported: 
+To create the table that holds the RDF data, you need to specify a table schema: 
 
- bq create mybucket/tables/rdf/tblNames schema/triple.scheme 
+ bq create mybucket/tables/rdf/table schema/quintuple.scheme 
+
+The layout of the RDF table looks like the following:
+
+ +--------------------------------------------------------+
+ | graph_uri | subject | predicate | object | object_type |
+ +--------------------------------------------------------+
+ | ...       | ...     | ...       | ...    | ...         |
 
 Step 4: Import the RDF data into the table
 
 Next you have to import the earlier created CSV file into the table:
 
- bq import mybucket/tables/rdf/tblNames mybucket/tables/rdf/mhausenblas-foaf.csv
+ bq import mybucket/tables/rdf/table mybucket/tables/rdf/mhausenblas-foaf.csv
 
-Importing can take up to 10 minutes if you have a lot of data; you can check the status with:
+Importing can take up to 10 minutes if you have a lot of data.
 
 Step 5: Run a query
 
 Once the CSV file is imported into the table, we can run a query:
 
-$ bq query "SELECT object FROM [mybucket/tables/rdf/tblNames] WHERE predicate = 'http://xmlns.com/foaf/0.1/knows' LIMIT 10"
+$ bq query "SELECT object FROM [mybucket/tables/rdf/table] WHERE predicate = 'http://xmlns.com/foaf/0.1/knows' LIMIT 10"
 
-The query above lists ten people that I know, which roughly translates into the following SPARQL query:
+The query above lists ten people that I know, which corresponds to the following SPARQL query:
 
  PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 

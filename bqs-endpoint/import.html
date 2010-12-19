@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<title>Data - BigQuery SPARQL Endpoint</title>
+		<link type="text/css" rel="stylesheet" href="/css/style.css" />
+		<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="/js/bqs.js"></script>
+	</head>
+<body>	
+	<div id="menu">
+		<a href="/">Home</a> | <span class="misel">Data</span> | <a href="{{ login_url }}">{{ login_url_linktext }}</a> | <a href="{{ help_url }}" target="_new">Help</a>
+	</div>
+	
+	<div id="header">
+		BigQuery SPARQL Endpoint
+	</div>
+
+	<div id="main">
+		<h2>Import Data</h2>
+		<div id="importf">
+		</div>
+		<div id="dscontrol"></div>
+		<div id="datasets">
+			{% for datasetlink in datasetlinks %}
+				<p>{{ datasetlink }}</p>
+			 {% endfor %}
+		</div>
+	</div>
+
+	<div id="footer">
+      <p>See <a href="http://code.google.com/p/bigquery-linkeddata/">BigQuery For Linked Open Data</a> on Google Code for details.</p>
+	</div>
+</body>
+</html>

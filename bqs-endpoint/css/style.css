@@ -1,0 +1,117 @@
+body { 
+	margin: 0px; 
+	padding: 0px; 
+	background: #f0f0f0;
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;  
+}
+
+h2 { 
+	margin-top: 20pt;
+	font-size: 18pt; 
+	color: #4f4f5f;
+}
+
+
+img { 
+	border: 0px solid white; 
+}
+
+a { 
+	color: #44A; 
+	text-decoration: none; 
+}
+
+a:hover { 
+	text-decoration: underline; 
+}
+
+textarea.qin {
+	font-size: 130%;
+	margin: 1em;
+}
+
+pre.sq {
+	padding: 1em;
+	border: 1px dotted #a0a0a0;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	background: #FFE;
+}
+
+#menu {
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 0.5em;
+	font-size: 10pt;
+	color: #404040;
+	background: #0f0f0f;
+	-moz-border-radius: 0px 0px 0px 4px;
+	-webkit-border-radius: 4px 4px 4px 4px;
+}
+
+#header { 
+	margin: 0; 
+	padding: 2em 0 0 0;
+	text-align: center;
+	font-size: 30pt;
+}
+
+#main { 
+	background: #fff;
+	margin: 1em 2em 1em 2em; 
+	padding: .5em 1em .5em 1em; 
+	-moz-border-radius: 8px 8px 8px 8px;
+	-webkit-border-radius: 8px 8px 8px 8px;
+	border-bottom: 1px solid #e0e0e0;
+	-moz-box-shadow: 3px 3px 4px #000;
+	-webkit-box-shadow: 3px 3px 4px #000;
+	box-shadow: 3px 3px 4px #000;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');	
+}
+
+#notequery{
+	font-size: 80%;
+	font-style: italic;
+	color: #606060; 
+	margin: 0 0 1em 0;
+}
+
+#qlcontrol, #dscontrol{
+	cursor: pointer;
+	text-align: right;
+	color: #44A; 
+}
+
+#querylist {
+	display: none;
+}
+
+#datasets {
+	display: none;
+	margin: .5em 0 0 2em;	
+	font-family: 'Courier New', monospace; 
+}
+
+
+#footer { 
+	border-top: 1px dotted #d0d0d0;
+	margin: 3em 0 0 0; 
+	padding: 0.1em; 
+	font-size: 60%; 
+	text-align: center; 
+}
+
+.byuser {
+	font-size: 80%;
+	text-align: right;
+}
+
+.misel {
+	color: #f0f0f0;
+}
+
+.cmd {
+	margin: 1em 0 0 0;
+}
