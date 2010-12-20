@@ -7,7 +7,10 @@
 	</head>
 <body>	
 	<div id="menu">
-		<a href="/">Home</a> | <span class="misel">Data</span> | <a href="{{ login_url }}">{{ login_url_linktext }}</a> | <a href="{{ help_url }}" target="_new">Help</a>
+		<a href="/">Home</a> | <span class="misel">Data</span> | <a href="{{ help_url }}" target="_new">Help</a> | <a href="{{ login_url }}">{{ login_url_linktext }}</a>
+		{% if isadmin %}
+		| <a href="/admin">Admin</a>
+		{% endif %}
 	</div>
 	
 	<div id="header">
@@ -15,15 +18,39 @@
 	</div>
 
 	<div id="main">
-		<h2>Import Data</h2>
-		<div id="importf">
-		</div>
-		<div id="dscontrol"></div>
+		<h2>Datasets</h2>
 		<div id="datasets">
+			<p>The following datasets are available in the BQS Endpoint:</p>
+			<table id="dslist">
+				<tr><th>Dataset</th><th>Data File</th><th>Graph URI</th></tr>
 			{% for datasetlink in datasetlinks %}
-				<p>{{ datasetlink }}</p>
+				<tr class="datasetentry">{{ datasetlink }}</tr>
 			 {% endfor %}
+			</table>
 		</div>
+		{% if isadmin %}
+		<div id="impcontrol"></div>
+		<div id="importf">
+			<form action="{{ upload_url }}" method="POST" enctype="multipart/form-data">
+				<fieldset>
+					<legend>Import</legend>
+					<label>RDF file*</label><br />
+						<input type="file" name="ntfile" accept="text/plain" />
+					<div id="noteupload">* must be in <a href="http://www.w3.org/TR/rdf-testcases/#ntriples">NTriples</a> format</div>	
+					<label>Target graph URI</label><br />
+						<input type="input" name="tgraphURI" size="50" value="http://example.org" />
+					<div class="cmd">
+						<input type="submit" name="submit" value="Import data!" />
+					</div>
+				</fieldset>
+			</form>
+			<div id ="fuploads">
+				{% for uploadlink in uploadlinks %}
+					<div>{{ uploadlink.fname }}</div>
+				 {% endfor %}
+			</div>
+		</div>
+		{% endif %}
 	</div>
 
 	<div id="footer">

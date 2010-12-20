@@ -18,6 +18,8 @@ application = webapp.WSGIApplication([
 						('/saveq', OverviewHandler),
 						('/execq', ExecQueryHandler),
 						('/datasets', ImportHandler),
+						('/upload', UploadHandler),
+						('/admin', AdminBQSEndpointHandler),
 						('/.*', OverviewHandler),
 					],
 					debug=True)

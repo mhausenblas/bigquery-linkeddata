@@ -7,7 +7,10 @@
 	</head>
 <body>	
 	<div id="menu">
-		<span class="misel">Home</span> | <a href="/datasets">Data</a> | <a href="{{ login_url }}">{{ login_url_linktext }}</a> | <a href="{{ help_url }}" target="_new">Help</a>
+		<span class="misel">Home</span> | <a href="/datasets">Data</a> |  <a href="{{ help_url }}" target="_new">Help</a> | <a href="{{ login_url }}">{{ login_url_linktext }}</a>
+		{% if isadmin %}
+		| <a href="/admin">Admin</a>
+		{% endif %}
 	</div>
 	
 	<div id="header">
@@ -16,17 +19,19 @@
 
 	<div id="main">
 		<h2>Query</h2>
-		<div id="notequery">
-			Currently, only queries in <a href="https://code.google.com/apis/bigquery/docs/query-reference.html" target="_new">BigQuery's SQL dialect</a> are allowed. A SPARQL-SQL rewrite functionality will be available soon.
-		</div>
 		<div id="result"></div>
-		<form id="queryf">
-			<textarea class="qin" id="querystr" rows="10" cols="60">SELECT x FROM [bigquery/samples/shakespeare]
+		<div id="queryf">
+			<form>
+				<textarea class="qin" id="querystr" rows="10" cols="60">SELECT x FROM [bigquery/samples/shakespeare]
 WHERE x CONTAINS "the";</textarea>
-			<div class="cmd">
-				<button id="execq">Execute</button> <button id="saveq">Save</button>
-			</div>
-		</form>
+				<div class="cmd">
+					<button id="execq">Execute</button> <button id="saveq">Save</button>
+				</div>
+				<div id="notequery">
+					Currently, only queries in <a href="https://code.google.com/apis/bigquery/docs/query-reference.html" target="_new">BigQuery's SQL dialect</a> are allowed. A SPARQL-SQL rewrite functionality will be available soon.
+				</div>
+			</form>
+		</div>
 		<div id="qlcontrol"></div>
 		<div id="querylist">
 		{% for bquery in bqueries %}

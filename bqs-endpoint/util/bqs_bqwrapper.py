@@ -30,8 +30,7 @@ class BigQueryWrapper:
 		try:
 			authpolicy = bq_client.CachedUserClientLoginAuthPolicy(FLAGS.auth_file)
 			bqc = bq_client.BigQueryClient(authpolicy, FLAGS.transport, FLAGS.api_endpoint)
-			(meta, query_result) = bqc.Query(qstr)
-			return (meta, query_result)
+			return bqc.Query(qstr)
 		except:
 			#exctype, value = sys.exc_info()[:2]
 			return "Can't execute query due to authentication issues ..."

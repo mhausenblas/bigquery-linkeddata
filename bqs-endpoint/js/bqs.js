@@ -1,8 +1,8 @@
 $(function(){
 	
 	// setup
-	$("#qlcontrol").text("Show queries ...");
-	$("#dscontrol").text("Show datasets ...");
+	$("#qlcontrol").text("Queries ...");
+	$("#impcontrol").text("Import ...");
 
 	// events
 	$("#saveq").click(function () {
@@ -57,14 +57,14 @@ $(function(){
 		}
 	});
 	
-	$("#dscontrol").click(function () {
-		if($("#datasets").is(":visible")){
-			$("#datasets").slideUp("slow");
-			$("#dscontrol").text("Show datasets ...");
+	$("#impcontrol").click(function () {
+		if($("#importf").is(":visible")){
+			$("#importf").slideUp("slow");
+			$("#impcontrol").text("Import ...");
 		}
 		else {
-			$("#datasets").slideDown("slow");
-			$("#dscontrol").text("Hide datasets ...");
+			$("#importf").slideDown("slow");
+			$("#impcontrol").text("Hide import ...");
 		}
 	});
 });
