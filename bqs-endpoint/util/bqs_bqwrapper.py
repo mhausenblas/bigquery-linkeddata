@@ -1,36 +1,37 @@
-import logging, cgi, os, platform, sys
+import logging, cgi, os, platform, sys, re
+import urllib2
 import gflags as flags
 import bigquery_db_api as bq
 import bq_client
 
+from util.bqs_global import *
+
 FLAGS = flags.FLAGS
 
-def GetDefaultUsername():
-  if platform.system() == 'Windows':
-    homedir = os.path.join(os.environ['HOMEDRIVE'],
-                           os.environ['HOMEPATH'])
-  else:
-    homedir = os.environ['HOME']
-  return os.path.join(homedir, '.googlecookie')
-
-flags.DEFINE_string('auth_file', 'michael.hausenblas@gmail.com',
-                    'Path to authentication key.')
+flags.DEFINE_enum('transport', 'REST', ['REST', 'RPC'],
+                  'The transportation method')
 flags.DEFINE_string(
     'api_endpoint',
     'https://www.googleapis.com/bigquery/v1',
     'Bigquery REST/JSON-RPC endpoint.')
-flags.DEFINE_enum('transport', 'REST', ['REST', 'RPC'],
-                  'The transportation method')
-flags.DEFINE_string('bigquery_db_api_rpclog', None,
-                    'Log file for bigquery RPCs.')
+
 
 class BigQueryWrapper:
 	def execquery(self, qstr):
-		logging.info("Executing query [%s]" %qstr)
+		qstr = re.sub(r'\n',' ', qstr)
+		qstr = qstr.split(';')[0]
+		logging.info("Trying to executing query <%s>" %qstr)
 		try:
-			authpolicy = bq_client.CachedUserClientLoginAuthPolicy(FLAGS.auth_file)
+			authpolicy = bq_client.ClientLoginAuthPolicy()
+			authpolicy.RetreiveToken('xxx@gmail.com', 'TOPSECRETPASSWORD') # you need to put your BigQuery account credentials here
 			bqc = bq_client.BigQueryClient(authpolicy, FLAGS.transport, FLAGS.api_endpoint)
-			return bqc.Query(qstr)
-		except:
-			#exctype, value = sys.exc_info()[:2]
-			return "can't execute query due to authentication issues."
+			(schema, qresult) = bqc.Query(qstr)
+			logging.info("schema %s" %schema)
+			logging.info("qresult %s" %qresult)
+			return qresult
+		except bq.DatabaseError, dbe:
+			logging.info("%s" %dbe)
+			return dbe # this means the provided GMail account has not been activated for BigQuery
+		except urllib2.HTTPError, httpe:
+			#logging.info("%s" %httpe)
+			return "access forbidden" # this means you haven't provided the correct credentials

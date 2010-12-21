@@ -72,14 +72,10 @@ class DeleteQueryHandler(webapp.RequestHandler):
 				
 class ExecQueryHandler(webapp.RequestHandler):
 	def get(self):
-		try:
-			bqw = BigQueryWrapper()
-			qstr = self.request.get('querystr')
-			results = bqw.execquery(qstr)
-			self.response.out.write(results)
-			logging.info(results)
-		except Error:
-			self.error(500)
+		bqw = BigQueryWrapper()
+		qstr = self.request.get('querystr')
+		results = bqw.execquery(qstr)
+		self.response.out.write(results)
 
 class ImportHandler(webapp.RequestHandler):
 	def get(self):
@@ -227,7 +223,7 @@ class AdminBQSEndpointHandler(webapp.RequestHandler):
 		user = users.get_current_user()
 		if user:
 			if users.is_current_user_admin():
-				self.response.out.write("<div><a href=\"/\">Home</a> | <a href=\"/admin?cmd=remove_uploads\">Remove uploaded files</a> | <a href=\"/admin?cmd=reset_datasets\">Remove all datasets</a></div>")
+				self.response.out.write("<div><a href=\"/\">Home</a> | <a href=\"/admin?cmd=listenv\">Environment</a> | <a href=\"/admin?cmd=remove_uploads\">Remove uploaded files</a> | <a href=\"/admin?cmd=reset_datasets\">Remove all datasets</a></div>")
 				if self.request.get('cmd'):
 					logging.info("Trying to execute admin command: %s" %self.request.get('cmd'))
 					self.dispatchcmd(self.request.get('cmd'))
@@ -267,7 +263,11 @@ class AdminBQSEndpointHandler(webapp.RequestHandler):
 			except:
 				self.response.out.write("<p>Unable to remove: %s</p>" %bobject.name)
 		self.response.out.write("<pre style='color:red'>Removed all datasets from Google Storage.</pre>")
-		
+	
+	def exec_listenv(self):
+		for name in os.environ.keys():
+			self.response.out.write("%s = %s<br />\n" % (name, os.environ[name]))
+	
 	def gsInit(self):
 		config = boto.config
 		try:
