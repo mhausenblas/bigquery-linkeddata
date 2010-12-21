@@ -26,11 +26,11 @@ flags.DEFINE_string('bigquery_db_api_rpclog', None,
 
 class BigQueryWrapper:
 	def execquery(self, qstr):
-		logging.info("Executing query %s" %qstr)
+		logging.info("Executing query [%s]" %qstr)
 		try:
 			authpolicy = bq_client.CachedUserClientLoginAuthPolicy(FLAGS.auth_file)
 			bqc = bq_client.BigQueryClient(authpolicy, FLAGS.transport, FLAGS.api_endpoint)
 			return bqc.Query(qstr)
 		except:
 			#exctype, value = sys.exc_info()[:2]
-			return "Can't execute query due to authentication issues ..."
+			return "can't execute query due to authentication issues."

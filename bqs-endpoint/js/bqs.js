@@ -1,55 +1,61 @@
 $(function(){
 	
 	// setup
-	$("#qlcontrol").text("Queries ...");
+	$("#qlcontrol").text("Hide queries ...");
 	$("#impcontrol").text("Import ...");
 
 	// events
 	$("#saveq").click(function () {
-		var qstrval = $("#querystr").val();
-		// validate
-		if(qstrval == "") {
-			alert("Ah! You try to save an empty query. I don't like this ...");
-			return false;
-		}
-		$.ajax({
-			url : "/saveq",
-			type: "POST",
-			data: "querystr=" + qstrval,
-			dataType: "text",
-			success : function(data) {
-				$("#result").html("Success! Query is saved ... " + data);
-			},
-			error: function(xhr, textStatus, errorThrown){
-				alert("Error: " + textStatus);
-			}
-		});
+		saveQuery();
 	});
 	
 	$("#execq").click(function () {
-		var qstrval = $("#querystr").val();
-		// validate
-		if(qstrval == "") {
-			alert("Ah! You try to execute an empty query. I don't like this ...");
-			return false;
-		}
-		$.ajax({
-			url : "/execq",
-			type: "GET",
-			data: "querystr=" + qstrval,
-			success : function(data) {
-				$("#result").html("Success! Query is executed ... " + data);
-			},
-			error: function(xhr, textStatus, errorThrown){
-				alert("Error: " + textStatus);
-			}
-		});
+		executeQuery();
 	});
+	
+	$(".execqsaved").live("click", function() {
+		var queryID = $(this).parent().attr("id");
+		var querStr = $("div[id='"+ queryID +"'] pre.sq").text();
+		$("#querystr").val(querStr); // set the query string in the text area
+		executeQuery();
+		//alert("Executing " + queryID);
+	});
+	
+	$(".deleteqsaved").live("click", function() {
+		var queryID = $(this).parent().attr("id");
+		deleteQuery(queryID);
+		//alert("Deleting " + $(this).parent().attr("id"));
+	});
+	
+	
+	
+	$("#queryfilter").keyup(function () {
+		var searchterm = $("#filterq").val();
 		
+		if(searchterm.length > 1) {
+			$("div.savedquery").each(function() {
+				$(this).hide();
+			});
+			$("div.savedquery:contains('" + searchterm + "')").show();
+		}
+		else {
+			$("div.savedquery").each(function() {
+				$(this).show();
+			});
+		}
+	 });
+	
+	$("#resetfilter").click(function () {
+		$("#filterq").val("");
+		$("div.savedquery").each(function() {
+			$(this).show();
+		});
+	 });
+
 	$("#qlcontrol").click(function () {
 		if($("#querylist").is(":visible")){
 			$("#querylist").slideUp("slow");
-			$("#qlcontrol").text("Show queries ...");
+			$("#qlcontrol").text("Queries ...");
 		}
 		else {
 			$("#querylist").slideDown("slow");
@@ -68,3 +74,59 @@ $(function(){
 		}
 	});
 });
+
+
+function saveQuery(){
+	var qstrval = $("#querystr").val();
+	// validate
+	if(qstrval == "") {
+		alert("Ah! You try to save an empty query. I don't like this ...");
+		return false;
+	}
+	$.ajax({
+		url : "/saveq",
+		type: "POST",
+		data: "querystr=" + escape(qstrval),
+		success : function(data) {
+			$("#result").html("Result:" + data);
+		},
+		error: function(xhr, textStatus, errorThrown){
+			alert("Error: " + textStatus);
+		}
+	});
+}
+
+function executeQuery(){
+	var qstrval = $("#querystr").val();
+	// validate
+	if(qstrval == "") {
+		alert("Ah! You try to execute an empty query. I don't like this ...");
+		return false;
+	}
+	$.ajax({
+		url : "/execq",
+		type: "GET",
+		data: "querystr=" + escape(qstrval),
+		success : function(data) {
+			$("#result").html("Result: " + data);
+		},
+		error: function(xhr, textStatus, errorThrown){
+			alert("Error: " + textStatus);
+		}
+	});
+}
+
+function deleteQuery(qID){
+	$.ajax({
+		url : "/deleteq",
+		type: "POST",
+		data: "querid=" + qID,
+		success : function(data) {
+			$("#result").html("Result: " + data);
+			location.reload();
+		},
+		error: function(xhr, textStatus, errorThrown){
+			alert("Error: " + textStatus);
+		}
+	});
+}

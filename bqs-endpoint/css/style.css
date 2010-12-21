@@ -26,7 +26,8 @@ a:hover {
 }
 
 textarea.qin {
-	font-size: 130%;
+	padding: .5em;
+	margin-bottom: 1em;
 }
 
 fieldset {
@@ -55,6 +56,12 @@ table#dslist th {
 	text-align: left;
 	border-bottom: 1px solid #9f9f9f;
 	font-size: 80%;
+}
+
+#currentuser {
+	margin: .5em 0 0 2em;
+	font-size: 10pt;
+	color: #9e9e9e;
 }
 
 #menu {
@@ -97,8 +104,23 @@ table#dslist th {
 	margin: 0 0 1em 0;
 }
 
-#queryf, #importf {
-	margin: 1em;	
+#queryf {
+	margin: 1em
+}
+
+#querfform {
+	float: left;
+	width: 50%;
+}
+
+#result {
+	float: left;
+	margin: 0 0 0 1em;
+}
+
+#bottom {
+	clear: left;
+	width: 100%;
 }
 
 #qlcontrol, #impcontrol{
@@ -108,17 +130,31 @@ table#dslist th {
 }
 
 #querylist {
-	display: none;
+}
+
+#queryfilter{
+	background: #fafafa;
+	font-size: 80%;
+	margin: 2em 0 2em 0;
+	padding: 2px 0px 3px 10px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-box-shadow: 0px 0px 1px #333;
+	-webkit-box-shadow: 2px 2px 2px #333;
+}
+
+#resetfilter {
+	cursor: pointer;
 }
 
 #importf {
 	display: none;
+	margin: 1em
 }
 
 #datasets {
 	margin: .5em 2em 4em 2em; 
 }
-
 
 #footer { 
 	border-top: 1px dotted #d0d0d0;
@@ -144,4 +180,14 @@ table#dslist th {
 .datasetentry {
 	font-size: 80%;
 	font-family: 'Courier New', monospace;
+}
+
+.execqsaved, .deleteqsaved {
+	cursor: pointer;
+}
+
+.savedquery {
+	border-left: 5px solid #f0f0f0;
+	margin-bottom: 1em;
+	padding: 0 0 0 1em;
 }

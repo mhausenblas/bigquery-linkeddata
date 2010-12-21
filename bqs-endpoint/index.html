@@ -5,13 +5,14 @@
 		<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="/js/bqs.js"></script>
 	</head>
-<body>	
+<body>
 	<div id="menu">
 		<span class="misel">Home</span> | <a href="/datasets">Data</a> |  <a href="{{ help_url }}" target="_new">Help</a> | <a href="{{ login_url }}">{{ login_url_linktext }}</a>
 		{% if isadmin %}
 		| <a href="/admin">Admin</a>
 		{% endif %}
 	</div>
+	<div id="currentuser">{{ usr }}</div>
 	
 	<div id="header">
 		BigQuery SPARQL Endpoint
@@ -19,36 +20,42 @@
 
 	<div id="main">
 		<h2>Query</h2>
-		<div id="result"></div>
 		<div id="queryf">
-			<form>
-				<textarea class="qin" id="querystr" rows="10" cols="60">SELECT x FROM [bigquery/samples/shakespeare]
+			<form id="querfform">
+				<fieldset>
+					<legend>Execute Query</legend>
+					<textarea class="qin" id="querystr" rows="4" cols="40">SELECT x 
+FROM [bigquery/samples/shakespeare]
 WHERE x CONTAINS "the";</textarea>
-				<div class="cmd">
-					<button id="execq">Execute</button> <button id="saveq">Save</button>
-				</div>
-				<div id="notequery">
-					Currently, only queries in <a href="https://code.google.com/apis/bigquery/docs/query-reference.html" target="_new">BigQuery's SQL dialect</a> are allowed. A SPARQL-SQL rewrite functionality will be available soon.
-				</div>
+					<div id="notequery">
+						Currently, only queries in <a href="https://code.google.com/apis/bigquery/docs/query-reference.html" target="_new">BigQuery's SQL dialect</a> are supported. SPARQL/SQL on-the-fly rewrite will soon be available as well as output in SPARQL result format.
+					</div>
+					<div class="cmd">
+						<button id="execq">Execute</button> <button id="saveq">Save</button>
+					</div>
+				</fieldset>
 			</form>
+			<div id="result"></div>
+			<div id="bottom" />
 		</div>
+		{% if hassqueries %}
 		<div id="qlcontrol"></div>
+		{% endif %}
 		<div id="querylist">
-		{% for bquery in bqueries %}
-			<pre class="sq">{{ bquery.querystr|escape }}</pre>
-			<div class="byuser">
-			{% if bquery.author %}
-				by <em>{{ bquery.author.nickname }}</em>
-			{% else %}
-				by anonymous
+			{% if hassqueries %}
+			<div id="queryfilter">Filter by (<em>case sensitive</em>): <input id="filterq" size="50" /> <img src="/img/reset.png" id="resetfilter" alt="reset" title="reset filter"/></div>
 			{% endif %}
-			</div>
-		 {% endfor %}
+			{% for bquery in bqueries %}
+				{{ bquery }}
+			{% endfor %}
 		</div>
 	</div>
 
 	<div id="footer">
-      <p>See <a href="http://code.google.com/p/bigquery-linkeddata/">BigQuery For Linked Open Data</a> on Google Code for details.</p>
+		<p>
+			See <a href="http://code.google.com/p/bigquery-linkeddata/">BigQuery For Linked Open Data</a> on Google Code for details.
+			Kudos to FamFamFam's <a href="http://www.famfamfam.com/lab/icons/silk/">Silk icons</a> that are used under the CC Attribution 2.5 Generic license.
+		</p>
 	</div>
 </body>
 </html>

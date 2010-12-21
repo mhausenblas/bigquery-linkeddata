@@ -8,6 +8,8 @@ class GlobalUtility:
 	IMPORT_BUCKET = 'lod-cloud'
 	# the object to hold converted CSV files
 	IMPORT_OBJECT = 'in'
+	# data postfix
+	DATA_POSTFIX = 'csv'
 	# metadata postfix
 	METADATA_POSTFIX = 'meta'
 	

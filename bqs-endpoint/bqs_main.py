@@ -15,12 +15,13 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from bqs_handler import *
 
 application = webapp.WSGIApplication([
-						('/saveq', OverviewHandler),
+						('/saveq', SaveQueryHandler),
 						('/execq', ExecQueryHandler),
+						('/deleteq', DeleteQueryHandler),
 						('/datasets', ImportHandler),
 						('/upload', UploadHandler),
 						('/admin', AdminBQSEndpointHandler),
-						('/.*', OverviewHandler),
+						('/', OverviewHandler),
 					],
 					debug=True)
 
