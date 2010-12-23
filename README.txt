@@ -18,13 +18,13 @@ Step 2: Upload the data file
 You upload the data file to Google Storage into one of your buckets, shown as 'mybucket' in the following;
 replace it with the actual name of your bucket.
 
- gsutil cp test/mhausenblas-foaf.csv gs://mybucket/tables/rdf/mhausenblas-foaf.csv
+ gsutil cp test/mhausenblas-foaf.csv gs://mybucket/in/mhausenblas-foaf.csv
 
 Step 3: Create the RDF table
 
 To create the table that holds the RDF data, you need to specify a table schema: 
 
- bq create mybucket/tables/rdf/table schema/quintuple.scheme 
+ bq create mybucket/rdftable schema/quintuple.scheme 
 
 The layout of the RDF table looks like the following:
 
@@ -37,7 +37,7 @@ Step 4: Import the RDF data into the table
 
 Next you have to import the earlier created CSV file into the table:
 
- bq import mybucket/tables/rdf/table mybucket/tables/rdf/mhausenblas-foaf.csv
+ bq import mybucket/rdftable mybucket/in/mhausenblas-foaf.csv
 
 Importing can take up to 10 minutes if you have a lot of data.
 
@@ -45,7 +45,7 @@ Step 5: Run a query
 
 Once the CSV file is imported into the table, we can run a query:
 
-$ bq query "SELECT object FROM [mybucket/tables/rdf/table] WHERE predicate = 'http://xmlns.com/foaf/0.1/knows' LIMIT 10"
+$ bq query "SELECT object FROM [mybucket/rdftable] WHERE predicate = 'http://xmlns.com/foaf/0.1/knows' LIMIT 10"
 
 The query above lists ten people that I know, which corresponds to the following SPARQL query:
 

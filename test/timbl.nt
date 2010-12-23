@@ -1,0 +1,76 @@
+<http://www.w3.org/DesignIssues/Overview.html> <http://purl.org/dc/elements/1.1/title> "Design Issues for the World Wide Web" .
+<http://www.w3.org/DesignIssues/Overview.html> <http://xmlns.com/foaf/0.1/maker> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://www.w3.org/People/Berners-Lee/card.rdf> <http://creativecommons.org/ns#license> <http://creativecommons.org/licenses/by-nc/3.0/> .
+<http://www.w3.org/People/Berners-Lee/card.rdf> <http://purl.org/dc/elements/1.1/title> "Tim Berners-Lee's FOAF file" .
+<http://www.w3.org/People/Berners-Lee/card.rdf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/PersonalProfileDocument> .
+<http://www.w3.org/People/Berners-Lee/card.rdf> <http://xmlns.com/foaf/0.1/maker> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://www.w3.org/People/Berners-Lee/card.rdf> <http://xmlns.com/foaf/0.1/primaryTopic> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://dig.csail.mit.edu/2005/ajar/ajaw/data#Tabulator> <http://usefulinc.com/ns/doap#developer> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://dig.csail.mit.edu/2007/01/camp/data#course> <http://xmlns.com/foaf/0.1/maker> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf> <http://creativecommons.org/ns#license> <http://creativecommons.org/licenses/by-nc/3.0/> .
+<http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf> <http://purl.org/dc/elements/1.1/title> "Tim Berners-Lee's editable FOAF file" .
+<http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/PersonalProfileDocument> .
+<http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf> <http://xmlns.com/foaf/0.1/maker> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf> <http://xmlns.com/foaf/0.1/primaryTopic> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://dig.csail.mit.edu/breadcrumbs/blog/4> <http://purl.org/dc/elements/1.1/title> "timbl's blog" .
+<http://dig.csail.mit.edu/breadcrumbs/blog/4> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://dig.csail.mit.edu/breadcrumbs/blog/feed/4> .
+<http://dig.csail.mit.edu/breadcrumbs/blog/4> <http://xmlns.com/foaf/0.1/maker> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://dig.csail.mit.edu/data#DIG> <http://xmlns.com/foaf/0.1/member> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://wiki.ontoworld.org/index.php/_IRW2006> <http://purl.org/dc/elements/1.1/title> "Identity, Reference and the Web workshop 2006" .
+<http://wiki.ontoworld.org/index.php/_IRW2006> <http://www.w3.org/2000/10/swap/pim/contact#participant> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://www.ecs.soton.ac.uk/~dt2/dlstuff/www2006_data#panel-panelk01> <http://www.w3.org/2000/01/rdf-schema#label> "The Next Wave of the Web (Plenary Panel)" .
+<http://www.ecs.soton.ac.uk/~dt2/dlstuff/www2006_data#panel-panelk01> <http://www.w3.org/2000/10/swap/pim/contact#participant> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://www.w3.org/2000/10/swap/data#Cwm> <http://usefulinc.com/ns/doap#developer> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/10/swap/pim/contact#Male> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2000/01/rdf-schema#label> "Tim Berners-Lee" .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://dig.csail.mit.edu/2008/webdav/timbl/foaf.rdf> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.w3.org/2007/11/Talks/search/query?date=All+past+and+future+talks&event=None&activity=None&name=Tim+Berners-Lee&country=None&language=None&office=None&rdfOnly=yes&submit=Submit> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2000/10/swap/pim/contact#assistant> <http://www.w3.org/People/Berners-Lee/card#amy> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2000/10/swap/pim/contact#homePage> <http://www.w3.org/People/Berners-Lee/> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2000/10/swap/pim/contact#office> _:node15j2l682ex798992 .
+_:node15j2l682ex798992 <http://www.w3.org/2000/10/swap/pim/contact#address> _:node15j2l682ex798993 .
+_:node15j2l682ex798993 <http://www.w3.org/2000/10/swap/pim/contact#city> "Cambridge" .
+_:node15j2l682ex798993 <http://www.w3.org/2000/10/swap/pim/contact#country> "USA" .
+_:node15j2l682ex798993 <http://www.w3.org/2000/10/swap/pim/contact#postalCode> "02139" .
+_:node15j2l682ex798993 <http://www.w3.org/2000/10/swap/pim/contact#street2> "MIT CSAIL Room 32-G524" .
+_:node15j2l682ex798993 <http://www.w3.org/2000/10/swap/pim/contact#street> "32 Vassar Street" .
+_:node15j2l682ex798992 <http://www.w3.org/2000/10/swap/pim/contact#phone> <tel:+1-617-253-5702> .
+_:node15j2l682ex798992 <http://www.w3.org/2003/01/geo/wgs84_pos#location> _:node15j2l682ex798994 .
+_:node15j2l682ex798994 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "42.361860" .
+_:node15j2l682ex798994 <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-71.091840" .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2000/10/swap/pim/contact#preferredURI> "http://www.w3.org/People/Berners-Lee/card#i" .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2000/10/swap/pim/contact#publicHomePage> <http://www.w3.org/People/Berners-Lee/> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2002/07/owl#sameAs> <http://identi.ca/user/45563> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2002/07/owl#sameAs> <http://www.advogato.org/person/timbl/foaf.rdf#me> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2002/07/owl#sameAs> <http://www4.wiwiss.fu-berlin.de/bookmashup/persons/Tim+Berners-Lee> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://www.w3.org/2002/07/owl#sameAs> <http://www4.wiwiss.fu-berlin.de/dblp/resource/person/100007> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/account> <http://en.wikipedia.org/User:Timbl> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/account> <http://identi.ca/timbl> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/account> <http://twitter.com/timberners_lee> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/based_near> _:node15j2l682ex798995 .
+_:node15j2l682ex798995 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "42.361860" .
+_:node15j2l682ex798995 <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-71.091840" .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/family_name> "Berners-Lee" .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/givenname> "Timothy" .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/homepage> <http://www.w3.org/People/Berners-Lee/> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/img> <http://www.w3.org/Press/Stock/Berners-Lee/2001-europaeum-eighth.jpg> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/mbox> <mailto:timbl@w3.org> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "965c47c5a70db7407210cef6e4e6f5374a525c5c" .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/name> "Timothy Berners-Lee" .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/nick> "TimBL" .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/nick> "timbl" .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/openid> <http://www.w3.org/People/Berners-Lee/> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/phone> <tel:+1-(617)-253-5702> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/title> "Sir" .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/weblog> <http://dig.csail.mit.edu/breadcrumbs/blog/4> .
+<http://www.w3.org/People/Berners-Lee/card#i> <http://xmlns.com/foaf/0.1/workplaceHomepage> <http://www.w3.org/> .
+<http://www.w3.org/data#W3C> <http://xmlns.com/foaf/0.1/member> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://www4.wiwiss.fu-berlin.de/booksMeshup/books/006251587X> <http://purl.org/dc/elements/1.1/creator> <http://www.w3.org/People/Berners-Lee/card#i> .
+<http://www4.wiwiss.fu-berlin.de/booksMeshup/books/006251587X> <http://purl.org/dc/elements/1.1/title> "Weaving the Web: The Original Design and Ultimate Destiny of the World Wide Web" .
+_:node15j2l682ex798996 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/auth/rsa#RSAPublicKey> .
+_:node15j2l682ex798996 <http://www.w3.org/ns/auth/cert#identity> <http://www.w3.org/People/Berners-Lee/card#i> .
+_:node15j2l682ex798996 <http://www.w3.org/ns/auth/rsa#modulus> _:node15j2l682ex798997 .
+_:node15j2l682ex798997 <http://www.w3.org/ns/auth/cert#hex> "c111fbc68eccad2021acc16533fb7b81\n        73505931694c476346c3254cf9706553\n        7b2e17a6eb67fe4da1b9e2d6c9ec3867\n        bd9b0e7d362181c4f1bf6a2875b596ec\n        99baa80b5c0f2ebf1dc6317bb835d8de\n        7f71d7f8d4123f730c7bdf41e608db6e\n        79bc490e9f89737b765d3a9a7494bbe6\n        de2c1af085b60ea82fecfb2a093b66ef\n        c01af8b37f77e0c5daad73a3f3848c44\n        1347247f915dd3d57d63624e934a0af3\n        c0bc93b5f6172d8661e3c8fed2011494\n        6fca3834262232c1d6d74e369f0e71f7\n        a348e652b48a77d9518ff7b776c07729\n        7625c3bec947ef5aae40d2253255813f\n        bfd519a883556cc76f03f5b07e0bd3bf\n        99359deb40417d6466908feeaa5c160f" .
+_:node15j2l682ex798996 <http://www.w3.org/ns/auth/rsa#public_exponent> _:node15j2l682ex798998 .
+_:node15j2l682ex798998 <http://www.w3.org/ns/auth/cert#decimal> "65537" .

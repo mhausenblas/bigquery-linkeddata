@@ -9,9 +9,11 @@ $(function(){
 		saveQuery();
 	});
 	
+	/*
 	$("#execq").click(function () {
 		executeQuery();
 	});
+	*/
 	
 	$(".execqsaved").live("click", function() {
 		var queryID = $(this).parent().attr("id");
@@ -52,6 +54,17 @@ $(function(){
 		});
 	 });
 
+	$("#schemehintcontrol").click(function () {
+		if($("#schemehint").is(":visible")){
+			$("#schemehint").slideUp("slow");
+			$("#schemehintcontrol").text("view ...");
+		}
+		else {
+			$("#schemehint").slideDown("slow");
+			$("#schemehintcontrol").text("hide ...");
+		}
+	});
+	
 	$("#qlcontrol").click(function () {
 		if($("#querylist").is(":visible")){
 			$("#querylist").slideUp("slow");
@@ -105,10 +118,9 @@ function executeQuery(){
 	}
 	$.ajax({
 		url : "/execq",
-		type: "GET",
+		type: "POST",
 		data: "querystr=" + escape(qstrval),
 		success : function(data) {
-			$("#result").html("Result: " + data);
 		},
 		error: function(xhr, textStatus, errorThrown){
 			alert("Error: " + textStatus);

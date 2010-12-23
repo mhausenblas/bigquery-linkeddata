@@ -1,0 +1,15 @@
+
+# list all graphs in the store:
+SELECT graph_uri AS graphs FROM [lodcloud/rdftable] GROUP BY graphs
+
+# list 5 triples from graph http://example.org
+SELECT subject, predicate, object FROM [lodcloud/rdftable] WHERE graph_uri='http://example.org' LIMIT 5
+
+# list 10 object values and their types from the DBpedia graph
+SELECT object, object_type FROM [lodcloud/rdftable] WHERE graph_uri='http://dbpedia.org' LIMIT 10
+
+# list TimBL's accounts
+SELECT subject AS s, predicate AS p, object AS o FROM [lodcloud/rdftable] WHERE subject='http://www.w3.org/People/Berners-Lee/card#i' AND predicate='http://xmlns.com/foaf/0.1/account' AND graph_uri='http://w3.org'
+
+# list 20 'friends'
+SELECT subject AS person, object AS friend FROM [lodcloud/rdftable] WHERE predicate = 'http://xmlns.com/foaf/0.1/knows' LIMIT 20

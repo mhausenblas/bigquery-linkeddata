@@ -1,26 +1,27 @@
 <html>
 	<head>
-		<title>Data - BigQuery SPARQL Endpoint</title>
+		<title>Data - BigQuery Endpoint</title>
 		<link type="text/css" rel="stylesheet" href="/css/style.css" />
 		<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="/js/bqs.js"></script>
 	</head>
 <body>	
 	<div id="menu">
-		<a href="/">Home</a> | <span class="misel">Data</span> | <a href="{{ help_url }}" target="_new">Help</a> | <a href="{{ login_url }}">{{ login_url_linktext }}</a>
+		<a href="/">Query</a> | <span class="misel">Data</span> | <a href="{{ help_url }}" target="_new">Help</a> | <a href="{{ login_url }}">{{ login_url_linktext }}</a>
 		{% if isadmin %}
 		| <a href="/admin">Admin</a>
 		{% endif %}
 	</div>
 	
 	<div id="header">
-		BigQuery SPARQL Endpoint
+		<a href="/" title="Home" class="home">BigQuery Endpoint</a>
 	</div>
 
 	<div id="main">
 		<h2>Datasets</h2>
 		<div id="datasets">
-			<p>The following datasets are available in the BQS Endpoint:</p>
+			<p>The following datasets are available in the BigQuery Endpoint:</p>
+			{{ datasetstats }}
 			<table id="dslist">
 				<tr><th>Dataset</th><th>Data File</th><th>Graph URI</th></tr>
 			{% for datasetlink in datasetlinks %}

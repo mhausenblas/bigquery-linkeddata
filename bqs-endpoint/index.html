@@ -1,13 +1,13 @@
 <html>
 	<head>
-		<title>Home - BigQuery SPARQL Endpoint</title>
+		<title>Home - BigQuery Endpoint</title>
 		<link type="text/css" rel="stylesheet" href="/css/style.css" />
 		<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="/js/bqs.js"></script>
 	</head>
 <body>
 	<div id="menu">
-		<span class="misel">Home</span> | <a href="/datasets">Data</a> |  <a href="{{ help_url }}" target="_new">Help</a> | <a href="{{ login_url }}">{{ login_url_linktext }}</a>
+		<span class="misel">Query</span> | <a href="/datasets">Data</a> |  <a href="{{ help_url }}" target="_new">Help</a> | <a href="{{ login_url }}">{{ login_url_linktext }}</a>
 		{% if isadmin %}
 		| <a href="/admin">Admin</a>
 		{% endif %}
@@ -15,27 +15,39 @@
 	<div id="currentuser">{{ usr }}</div>
 	
 	<div id="header">
-		BigQuery SPARQL Endpoint
+		<a href="/" title="Home" class="home">BigQuery Endpoint</a>
 	</div>
 
 	<div id="main">
-		<h2>Query</h2>
+		<h2>Execute Query</h2>
 		<div id="queryf">
-			<form id="querfform">
+			<form id="querfform" action="/execq" method="post">
 				<fieldset>
-					<legend>Execute Query</legend>
-					<textarea class="qin" id="querystr" rows="4" cols="40">SELECT x 
-FROM [bigquery/samples/shakespeare] 
-WHERE x CONTAINS "the";</textarea>
+					<legend>Query</legend>
+					<textarea class="qin" id="querystr" name="querystr" rows="4" cols="40">{{ querystring }}</textarea>
 					<div id="notequery">
-						Currently, only queries in <a href="https://code.google.com/apis/bigquery/docs/query-reference.html" target="_new">BigQuery's SQL dialect</a> are supported. SPARQL/SQL on-the-fly rewrite will soon be available as well as output in SPARQL result format.
+						Currently, only queries in <a href="https://code.google.com/apis/bigquery/docs/query-reference.html" target="_new">BigQuery's SQL dialect</a> are supported (a on-the-fly SPARQL-to-SQL rewrite will soon be available, as well as output in SPARQL result format). 
+						Note also the default table schema: <span id="schemehintcontrol">view ...</span>
 					</div>
 					<div class="cmd">
-						<button id="execq">Execute</button> <button id="saveq">Save</button>
+						<input id="execq" type="submit" value="Execute" /> <button id="saveq">Save</button>
+					</div>
+					<div id="schemehint">Note that the default table <code>[lodcloud/rdftable]</code> has the following scheme:
+<pre>+--------------------------------------------------------+
+| graph_uri | subject | predicate | object | object_type |
++--------------------------------------------------------+
+| ...       | ...     | ...       | ...    | ...         |</pre>
 					</div>
 				</fieldset>
 			</form>
-			<div id="result"></div>
+			<div id="result">
+				{% if hasresults %}
+					<fieldset>
+						<legend>Result</legend>
+						{{ queryresults }}
+					</fieldset>
+				{% endif %}
+			</div>
 			<div id="bottom" />
 		</div>
 		{% if hassqueries %}

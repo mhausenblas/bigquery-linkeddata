@@ -19,19 +19,30 @@ flags.DEFINE_string(
 class BigQueryWrapper:
 	def execquery(self, qstr):
 		qstr = re.sub(r'\n',' ', qstr)
-		qstr = qstr.split(';')[0]
-		logging.info("Trying to executing query <%s>" %qstr)
+		#qstr = qstr.split(';')[0]
+		#logging.info("Trying to execute query <%s>" %qstr)	
 		try:
-			authpolicy = bq_client.ClientLoginAuthPolicy()
-			authpolicy.RetreiveToken('xxx@gmail.com', 'TOPSECRETPASSWORD') # you need to put your BigQuery account credentials here
-			bqc = bq_client.BigQueryClient(authpolicy, FLAGS.transport, FLAGS.api_endpoint)
+			bqc = bq_client.BigQueryClient(self.authq(), FLAGS.transport, FLAGS.api_endpoint)
 			(schema, qresult) = bqc.Query(qstr)
-			logging.info("schema %s" %schema)
-			logging.info("qresult %s" %qresult)
-			return qresult
+			#logging.info("schema %s" %schema)
+			#logging.info("qresult %s" %qresult)
+			return schema, qresult
 		except bq.DatabaseError, dbe:
 			logging.info("%s" %dbe)
-			return dbe # this means the provided GMail account has not been activated for BigQuery
+			return (dbe , "") # this means a syntax error or the provided GMail account has not been activated for BigQuery yet
 		except urllib2.HTTPError, httpe:
 			#logging.info("%s" %httpe)
-			return "access forbidden" # this means you haven't provided the correct credentials
+			return ("Access forbidden. Check Google Storage credentials ...", "") # this means you haven't provided the correct credentials
+	
+	def numtriples(self):
+		try:
+			bqc = bq_client.BigQueryClient(self.authq(), FLAGS.transport, FLAGS.api_endpoint)
+			(schema, qresult) = bqc.Query(GlobalUtility.DEFAULT_QUERY_COUNT)
+			return qresult[0]
+		except:
+			return "unknown"
+
+	def authq(self):
+		authpolicy = bq_client.ClientLoginAuthPolicy()
+		authpolicy.RetreiveToken(GlobalUtility.GS_ENABLED_GMAIL_ADDRESS, GlobalUtility.GS_ENABLED_GMAIL_PWD)
+		return authpolicy
