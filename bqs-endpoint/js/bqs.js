@@ -17,9 +17,9 @@ $(function(){
 	
 	$(".execqsaved").live("click", function() {
 		var queryID = $(this).parent().attr("id");
-		var querStr = $("div[id='"+ queryID +"'] pre.sq").text();
+		var querStr = $("div[id='"+ queryID +"'] div.sq").text();
 		$("#querystr").val(querStr); // set the query string in the text area
-		executeQuery();
+		//executeQuery();
 		//alert("Executing " + queryID);
 	});
 	
@@ -29,7 +29,13 @@ $(function(){
 		//alert("Deleting " + $(this).parent().attr("id"));
 	});
 	
-	
+	$(".hinfo").live("mouseenter", function() {
+		$(this).css("background", "#f0f0ff")
+	});
+
+	$(".hinfo").live("mouseout", function() {
+		$(this).css("background", "#ffffff")
+	});	
 	
 	$("#queryfilter").keyup(function () {
 		var searchterm = $("#filterq").val();
@@ -68,10 +74,12 @@ $(function(){
 	$("#qlcontrol").click(function () {
 		if($("#querylist").is(":visible")){
 			$("#querylist").slideUp("slow");
+			$("#querylisthead").slideUp("slow");
 			$("#qlcontrol").text("Queries ...");
 		}
 		else {
 			$("#querylist").slideDown("slow");
+			$("#querylisthead").slideDown("slow");
 			$("#qlcontrol").text("Hide queries ...");
 		}
 	});

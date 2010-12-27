@@ -17,10 +17,30 @@ flags.DEFINE_string(
 
 
 class BigQueryWrapper:
+	
+	def import_table(self, source_file):
+		infile = "/".join([GlobalUtility.IMPORT_BUCKET, GlobalUtility.IMPORT_OBJECT, source_file])
+		rdftable = "/".join([GlobalUtility.IMPORT_BUCKET, GlobalUtility.RDFTABLE_OBJECT])
+		logging.info("Importing %s into table %s" %(infile, rdftable))
+		bqc = bq_client.BigQueryClient(self.authq(), FLAGS.transport, FLAGS.api_endpoint)
+		result = bqc.StartImport(rdftable, infile)
+		# result something like ... {u'table': u'lodcloud/rdftable', u'kind': u'bigquery#import_id', u'import': u'81bbae7030fa680d'}
+		logging.info("Import started with: %s" %result)
+		return result['import']
+	
+	def get_import_status(self, importid):
+		rdftable = "/".join([GlobalUtility.IMPORT_BUCKET, GlobalUtility.RDFTABLE_OBJECT])
+		bqc = bq_client.BigQueryClient(self.authq(), FLAGS.transport, FLAGS.api_endpoint)
+		result = bqc.GetImportStatus(rdftable, importid)
+		#logging.info("Import status of %s is: %s" %(importid, result))
+		return result['status']
+		
 	def execquery(self, qstr):
-		qstr = re.sub(r'\n',' ', qstr)
-		#qstr = qstr.split(';')[0]
-		#logging.info("Trying to execute query <%s>" %qstr)	
+		qstr = qstr.replace('\\n',' ')
+		qstr = qstr.rstrip()
+		if ';' in qstr:	
+			qstr = qstr.split(';')[0]
+		logging.info("Trying to execute query <%s>" %qstr)
 		try:
 			bqc = bq_client.BigQueryClient(self.authq(), FLAGS.transport, FLAGS.api_endpoint)
 			(schema, qresult) = bqc.Query(qstr)
@@ -40,7 +60,7 @@ class BigQueryWrapper:
 			(schema, qresult) = bqc.Query(GlobalUtility.DEFAULT_QUERY_COUNT)
 			return qresult[0]
 		except:
-			return "unknown"
+			return 0
 
 	def authq(self):
 		authpolicy = bq_client.ClientLoginAuthPolicy()

@@ -1,0 +1,4 @@
+cron:
+- description: NTriples file uploads cleanup
+  url: /gcuploads
+  schedule: every 30 mins

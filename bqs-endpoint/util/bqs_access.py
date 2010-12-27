@@ -8,10 +8,10 @@ class UserUtility:
 	def usercredentials(self, request):
 		if users.get_current_user():
 			url = users.create_logout_url(request.uri)
-			url_linktext = 'Logout'
+			url_linktext = '<img src="/img/online.png" alt="logged in" />'
 		else:
 			url = users.create_login_url(request.uri)
-			url_linktext = 'Login'
+			url_linktext = '<img src="/img/offline.png" alt="not logged in" />'
 		return url, url_linktext
 	def renderuser(self, request):
 		if users.get_current_user():

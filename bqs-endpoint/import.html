@@ -7,11 +7,13 @@
 	</head>
 <body>	
 	<div id="menu">
-		<a href="/">Query</a> | <span class="misel">Data</span> | <a href="{{ help_url }}" target="_new">Help</a> | <a href="{{ login_url }}">{{ login_url_linktext }}</a>
+		<a href="/">Query</a> | <span class="misel">Data</span> | <a href="{{ help_url }}" target="_new">Help</a>
 		{% if isadmin %}
 		| <a href="/admin">Admin</a>
 		{% endif %}
 	</div>
+	
+	<div id="currentuser"><a href="{{ login_url }}" title="change user">{{ login_url_linktext }}</a> {{ usr }}</div>
 	
 	<div id="header">
 		<a href="/" title="Home" class="home">BigQuery Endpoint</a>
@@ -20,10 +22,10 @@
 	<div id="main">
 		<h2>Datasets</h2>
 		<div id="datasets">
-			<p>The following datasets are available in the BigQuery Endpoint:</p>
+			<p>The following datasets have been successfully imported into the default table <code>[lodcloud/rdftable]</code>  and are available in the BigQuery Endpoint:</p>
 			{{ datasetstats }}
 			<table id="dslist">
-				<tr><th>Dataset</th><th>Data File</th><th>Graph URI</th></tr>
+				<tr><th>Dataset</th><th>Data File</th><th>Graph URI</th><th>Status</th></tr>
 			{% for datasetlink in datasetlinks %}
 				<tr class="datasetentry">{{ datasetlink }}</tr>
 			 {% endfor %}
@@ -45,11 +47,6 @@
 					</div>
 				</fieldset>
 			</form>
-			<div id ="fuploads">
-				{% for uploadlink in uploadlinks %}
-					<div>{{ uploadlink.fname }}</div>
-				 {% endfor %}
-			</div>
 		</div>
 		{% endif %}
 	</div>
@@ -58,6 +55,7 @@
 		<p>
 			See <a href="http://code.google.com/p/bigquery-linkeddata/">BigQuery For Linked Open Data</a> on Google Code for details.
 			Kudos to FamFamFam's <a href="http://www.famfamfam.com/lab/icons/silk/">Silk icons</a> that are used under the CC Attribution 2.5 Generic license.
+			<a href="http://code.google.com/appengine/"><img src="http://code.google.com/appengine/images/appengine-silver-120x30.gif" alt="Powered by Google App Engine" /></a>
 		</p>
 	</div>
 </body>

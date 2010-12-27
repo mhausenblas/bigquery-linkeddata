@@ -7,12 +7,12 @@
 	</head>
 <body>
 	<div id="menu">
-		<span class="misel">Query</span> | <a href="/datasets">Data</a> |  <a href="{{ help_url }}" target="_new">Help</a> | <a href="{{ login_url }}">{{ login_url_linktext }}</a>
+		<span class="misel">Query</span> | <a href="/datasets">Data</a> |  <a href="{{ help_url }}" target="_new">Help</a>
 		{% if isadmin %}
 		| <a href="/admin">Admin</a>
 		{% endif %}
 	</div>
-	<div id="currentuser">{{ usr }}</div>
+	<div id="currentuser"><a href="{{ login_url }}" title="change user">{{ login_url_linktext }}</a> {{ usr }}</div>
 	
 	<div id="header">
 		<a href="/" title="Home" class="home">BigQuery Endpoint</a>
@@ -26,8 +26,7 @@
 					<legend>Query</legend>
 					<textarea class="qin" id="querystr" name="querystr" rows="4" cols="40">{{ querystring }}</textarea>
 					<div id="notequery">
-						Currently, only queries in <a href="https://code.google.com/apis/bigquery/docs/query-reference.html" target="_new">BigQuery's SQL dialect</a> are supported (a on-the-fly SPARQL-to-SQL rewrite will soon be available, as well as output in SPARQL result format). 
-						Note also the default table schema: <span id="schemehintcontrol">view ...</span>
+						Currently, only <code>SELECT</code> queries in <a href="https://code.google.com/apis/bigquery/docs/query-reference.html" target="_new">BigQuery's SQL dialect</a> are supported. I plan to add a support for on-the-fly SPARQL-to-SQL rewrite soon (as well as output in SPARQL result format). Note also the default table schema: <span id="schemehintcontrol">view ...</span>
 					</div>
 					<div class="cmd">
 						<input id="execq" type="submit" value="Execute" /> <button id="saveq">Save</button>
@@ -48,25 +47,24 @@
 					</fieldset>
 				{% endif %}
 			</div>
-			<div id="bottom" />
 		</div>
 		{% if hassqueries %}
 		<div id="qlcontrol"></div>
-		{% endif %}
+		<h2 id="querylisthead">Query Library</h2>
 		<div id="querylist">
-			{% if hassqueries %}
 			<div id="queryfilter">Filter by (<em>case sensitive</em>): <input id="filterq" size="50" /> <img src="/img/reset.png" id="resetfilter" alt="reset" title="reset filter"/></div>
-			{% endif %}
 			{% for bquery in bqueries %}
 				{{ bquery }}
 			{% endfor %}
 		</div>
+		{% endif %}
 	</div>
 
 	<div id="footer">
 		<p>
 			See <a href="http://code.google.com/p/bigquery-linkeddata/">BigQuery For Linked Open Data</a> on Google Code for details.
 			Kudos to FamFamFam's <a href="http://www.famfamfam.com/lab/icons/silk/">Silk icons</a> that are used under the CC Attribution 2.5 Generic license.
+			<a href="http://code.google.com/appengine/"><img src="http://code.google.com/appengine/images/appengine-silver-120x30.gif" alt="Powered by Google App Engine" /></a>
 		</p>
 	</div>
 </body>

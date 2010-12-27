@@ -21,6 +21,7 @@ application = webapp.WSGIApplication([
 						('/deleteq', DeleteQueryHandler),
 						('/datasets', ImportHandler),
 						('/upload', UploadHandler),
+						('/gcuploads', GarbageCollectUploadsHandler),
 						('/admin', AdminBQSEndpointHandler)
 					],
 					debug=False)

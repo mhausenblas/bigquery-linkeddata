@@ -18,7 +18,7 @@ from bqs_models import *
 class OverviewHandler(webapp.RequestHandler):
 	def get(self):
 		bqquery = BQueryModel.all().order('-date')
-		squeries = bqquery.fetch(10)
+		squeries = bqquery.fetch(20)
 		queryh = QueryHelper()
 		squeries = [queryh.render_query(squery) for squery in squeries]
 		currentuser = UserUtility()
@@ -37,6 +37,7 @@ class OverviewHandler(webapp.RequestHandler):
 			'isadmin' : users.is_current_user_admin()
 		}
 		path = os.path.join(os.path.dirname(__file__), 'index.html')
+		self.response.headers.add_header("Access-Control-Allow-Origin", "*")
 		self.response.out.write(template.render(path, templatev))
 
 class ExecQueryHandler(webapp.RequestHandler):
@@ -98,7 +99,7 @@ class ExecQueryHandler(webapp.RequestHandler):
 		else:
 			elapsed = '%.2fs' %elapsed
 		
-		rtable = "<div id='querystats'>It took me %s to execute this query.</div><table id='qrlist'><tr>" %elapsed
+		rtable = "<div id='querystats'>Success! Found %s matches in %s ...</div><table id='qrlist'><tr>" %(len(results), elapsed)
 		# result columns (table head)
 		for col in schema:
 			rcol = "<th>%s</th>" %col[0]
@@ -148,29 +149,22 @@ class ImportHandler(webapp.RequestHandler):
 	def get(self):
 		upload_url = blobstore.create_upload_url('/upload')
 		datasetlinks = self.listds()
-		uploadlinks = self.listuploads()
 		currentuser = UserUtility()
 		url, url_linktext = currentuser.usercredentials(self.request)
 		templatev = {
 			'upload_url': upload_url,
 			'datasetlinks': datasetlinks,
 			'datasetstats': self.render_dataset_stats(),
-			'uploadlinks': uploadlinks,
+			'usr' : currentuser.renderuser(self.request),
 			'login_url': url,
 			'login_url_linktext': url_linktext,
 			'help_url' : GlobalUtility.HELP_LINK,
 			'isadmin' : users.is_current_user_admin()
 		}
 		path = os.path.join(os.path.dirname(__file__), 'import.html')
+		self.response.headers.add_header("Access-Control-Allow-Origin", "*")
 		self.response.out.write(template.render(path, templatev))
-
-	def listuploads(self):
-		uploadfquery = NTriplesFileModel.all().order('fname')
-		#logging.info("Available files:")
-		#for uploadf in uploadfquery:
-		#	logging.info(uploadf.fname)
-		return uploadfquery
-		
+	
 	def listds(self):
 		gsh = GSHelper()
 		gsh.gs_init()
@@ -180,18 +174,30 @@ class ImportHandler(webapp.RequestHandler):
 
 	def render_dataset_stats(self):
 		bqw = BigQueryWrapper()
-		numtriples = bqw.numtriples()
-		return '<div id="dsstats">Triple count: %s</div>' %numtriples 
+		resstr = '<div id="dsstats">Total number of triples: <span class="hinfo" title="%s">%s</span>k</div>'
+		exactnumtriples = bqw.numtriples()
+		if type(exactnumtriples).__name__=='tuple':
+			(roughnumtriples, modulopart) = divmod(int(exactnumtriples[0]), 1000)
+			if roughnumtriples > 0:
+				return  resstr%(exactnumtriples[0], roughnumtriples)
+			else:
+				resstr = '<div id="dsstats">Total number of triples: %s</div>'
+				return  resstr%exactnumtriples[0]
+		else:
+			resstr = '<div id="dsstats">Total number of triples: %s</div>'
+			return  resstr%0 
+			 
 		
 	def render_dataset(self, bobject):
-		if not bobject.name.find(GlobalUtility.RDFTABLE_OBJECT) >= 0: # only process stuff from import object, not in the table object		
+		if not bobject.name.find(GlobalUtility.RDFTABLE_OBJECT) >= 0: # only process stuff from import object, not in the table object
 			if not bobject.name.find(GlobalUtility.METADATA_POSTFIX) >= 0: # only process non-metadata files
 				absbucketURI = "/".join([GlobalUtility.GOOGLE_STORAGE_BASE_URI, GlobalUtility.IMPORT_BUCKET, bobject.name])
 				#logging.info("Looking at import bucket: %s " %absbucketURI)
 				dataset_name = bobject.name.split("/")[1].split(".")[0] # abc/xxx.nt -> xxx
 				graph_uri = self.get_metadata(bobject, 'graphURI')
+				istatus = self.get_import_status(bobject)
 				#logging.info("Got %s from graph %s in Google Storage" %(bobject.name, graph_uri))
-				bobjectlink = '<td>%s</td><td><a href="%s" target="_new">gs://%s</a></td><td>%s</td>' %(dataset_name, absbucketURI, "/".join([GlobalUtility.IMPORT_BUCKET, bobject.name]), graph_uri)
+				bobjectlink = '<td>%s</td><td><a href="%s" target="_new">gs://%s</a></td><td>%s</td><td>%s</td>' %(dataset_name, absbucketURI, "/".join([GlobalUtility.IMPORT_BUCKET, bobject.name]), graph_uri, istatus)
 				return bobjectlink
 			else:
 				return ""
@@ -210,6 +216,21 @@ class ImportHandler(webapp.RequestHandler):
 			graph_uri = GlobalUtility.DEFAULT_GRAPH_URI
 		return graph_uri
 
+	def get_import_status(self, bobject):
+		filename = bobject.name.split("/")[1]
+		importid = memcache.get(filename)
+		if importid is not None:
+			logging.info("Checking import status of %s" %filename)
+			bqw = BigQueryWrapper()
+			istatus = bqw.get_import_status(importid)
+			if istatus == 'IMPORT_DONE':
+				memcache.delete(filename)
+				return "available"
+			else:
+				return istatus 
+		else:
+			return "available"
+	
 	def post(self):
 		pass
 
@@ -225,7 +246,8 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			gsh = GSHelper()
 			gsh.gs_init()
 			target_filename = ".".join([blob_info.filename.rsplit(".")[0], GlobalUtility.DATA_POSTFIX])
-			self.gsCopy(csv_str, target_filename, self.request.get('tgraphURI')) # copy CSV file to Google storage
+			self.gs_copy(csv_str, target_filename, self.request.get('tgraphURI')) # copy CSV file to Google storage
+			self.init_import(target_filename) # start the import from source file into BigQuery table
 			self.redirect('/datasets')
 		else:
 			logging.info("%s is already available here, not gonna upload it again ..." %blob_info.filename) 
@@ -261,36 +283,66 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 		blob_reader = blobstore.BlobReader(blob_key, buffer_size=1048576) # set buffer to 1MB
 		return blob_reader.read()
 		
-	def gsCopy(self, csv_str, fname, graph_uri):
+	def gs_copy(self, csv_str, fname, graph_uri):
 		gs_target = "/".join([GlobalUtility.IMPORT_BUCKET, GlobalUtility.IMPORT_OBJECT, fname])
 		uri = boto.storage_uri(gs_target, "gs")
 		gskey = uri.new_key()
 		gskey.set_contents_from_string(csv_str, None, True) # see http://boto.cloudhackers.com/ref/gs.html#boto.gs.key.Key.set_contents_from_filename
 		gskey.set_acl('public-read')
 		# this doesn't seem to work: gskey.set_metadata('graphURI', graphURI) ... hence a workaround:
-		self.gsSetMetadata(fname, "graphURI=%s" %graph_uri)
+		self.gs_set_metadata(fname, "graphURI=%s" %graph_uri)
 		logging.info("Copied %s into graph %s in Google Storage" %(gs_target, graph_uri))
 	
-	def gsSetMetadata(self, fname, metadata):
+	def gs_set_metadata(self, fname, metadata):
 		gs_target = "/".join([GlobalUtility.IMPORT_BUCKET, GlobalUtility.IMPORT_OBJECT, fname.split(".")[0]])
 		gs_target = ".".join([gs_target, GlobalUtility.METADATA_POSTFIX])
 		uri = boto.storage_uri(gs_target, "gs")
 		gskey = uri.new_key()
 		gskey.set_contents_from_string(metadata, None, True) # see http://boto.cloudhackers.com/ref/gs.html#boto.gs.key.Key.set_contents_from_filename
 
+	def init_import(self, source_file):
+		bqw = BigQueryWrapper()
+		thandle = bqw.import_table(source_file)
+		memcache.add(source_file, thandle, 3600) # store import ID of upload file in memchache for 1h to be able to check status
+	
+class GarbageCollectUploadsHandler(webapp.RequestHandler):
+	def get(self):
+		logging.info("[UPLOAD GC] Checking for uploaded NTriple files in the blob store that can be removed ...")
+		ntfiles = NTriplesFileModel.all()
+		for ntfile in ntfiles:
+			self.gc_file(ntfile)
+		
+	def gc_file(self, ntfile):
+		ntfilename = ntfile.fname
+		datafilename = ".".join([ntfilename.split(".")[0], GlobalUtility.DATA_POSTFIX ]) # xxx.nt -> xxx.csv
+		logging.info("[UPLOAD GC] Checking if I can remove %s" %datafilename)
+		importid = memcache.get(datafilename)
+		if importid is not None: # there is an entry in memcache, we need to see if there are some leftovers 
+			bqw = BigQueryWrapper()
+			istatus = bqw.get_import_status(importid)
+			if istatus == 'IMPORT_DONE': # the data file in CSV format has been imported into BigQuery, it is safe to assume we can remove the blob in GAE
+				# remove the NTriples blobs and references
+				logging.info("[UPLOAD GC] Removing %s" %ntfile.fname)
+				blobstore.BlobInfo.get(ntfile.ntriplefile).delete() # remove the blob that holds the uploaded file
+				ntfile.delete() # remove the reference to the blob
+				memcache.delete(datafilename) # eventually, remove memcache entry
+		else:
+			logging.info("[UPLOAD GC] I have no BigQuery import status about %s so assuming it is still being imported" %datafilename)
 
 class AdminBQSEndpointHandler(webapp.RequestHandler):
 	def get(self):
 		user = users.get_current_user()
 		if user:
 			if users.is_current_user_admin():
-				self.response.out.write("<div><a href=\"/\">Home</a> | <a href=\"/admin?cmd=listenv\">Environment</a> | <a href=\"/admin?cmd=remove_uploads\">Remove uploaded files</a> | <a href=\"/admin?cmd=reset_datasets\">Remove all datasets</a></div>")
+				self.response.out.write("<div><a href=\"/\">Home</a> | <a href=\"/admin?cmd=listenv\">Environment</a> | <a href=\"/admin?cmd=list_uploads\">List uploaded files</a> | <a href=\"/admin?cmd=remove_uploads\">Remove uploaded files</a> | <a href=\"/admin?cmd=reset_datasets\">Remove all datasets</a></div>")
 				if self.request.get('cmd'):
 					logging.info("Trying to execute admin command: %s" %self.request.get('cmd'))
 					self.dispatchcmd(self.request.get('cmd'))
 			else:
-				self.response.out.write("Hi %s - you're not an admin, right? ;)" % user.nickname())
-
+				self.response.out.write("Hi %s - you're not an admin, right? ;)" %user.nickname())
+		else:
+			self.response.out.write("Please log in first ..." )
+			
 	def dispatchcmd(self, value):
 		mname = 'exec_' + str(value)
 		try:
@@ -299,15 +351,21 @@ class AdminBQSEndpointHandler(webapp.RequestHandler):
 		except:
 			self.response.out.write("<pre style='color:red'>Command unknown</pre>")
 	
+	def exec_list_uploads(self):
+		fuploads = NTriplesFileModel.all().order('fname')
+		self.response.out.write("<pre>The following files have been uploaded:</pre>")
+		for fupload in fuploads:
+			self.response.out.write("<pre>%s</pre>" %fupload.fname)
+	
 	def exec_remove_uploads(self):
 		# remove all blobs
-		allblobs = blobstore.BlobInfo.all();
+		allblobs = blobstore.BlobInfo.all()
 		more = (allblobs.count() > 0)
 		blobstore.delete(allblobs)
 		# remove all references to blobs
 		ntfiles = NTriplesFileModel.all()
 		for ntfile in ntfiles:
-		    ntfile.delete()
+			ntfile.delete()
 		self.response.out.write("<pre style='color:red'>Removed all uploaded files.</pre>")
 	
 	def exec_reset_datasets(self):

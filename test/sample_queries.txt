@@ -13,3 +13,6 @@ SELECT subject AS s, predicate AS p, object AS o FROM [lodcloud/rdftable] WHERE 
 
 # list 20 'friends'
 SELECT subject AS person, object AS friend FROM [lodcloud/rdftable] WHERE predicate = 'http://xmlns.com/foaf/0.1/knows' LIMIT 20
+
+# list Eurostat datasets (that is, instances of cube:DataSet in the http://epp.eurostat.ec.europa.eu/ graph)
+SELECT subject, predicate, object FROM [lodcloud/rdftable] WHERE graph_uri='http://epp.eurostat.ec.europa.eu/' AND predicate='http://www.w3.org/1999/02/22-rdf-syntax-ns#type' AND object='http://purl.org/linked-data/cube#DataSet' LIMIT 20
