@@ -8,16 +8,19 @@ class UserUtility:
 	def usercredentials(self, request):
 		if users.get_current_user():
 			url = users.create_logout_url(request.uri)
-			url_linktext = '<img src="/img/online.png" alt="logged in" />'
+			url_title = 'Sign out ...'
+			url_linktext = '<img src="/img/online.png" alt="logged in" style="vertical-align: middle" />'
 		else:
 			url = users.create_login_url(request.uri)
-			url_linktext = '<img src="/img/offline.png" alt="not logged in" />'
-		return url, url_linktext
+			url_title = 'Sign in ...'
+			url_linktext = '<img src="/img/offline.png" alt="not logged in" style="vertical-align: middle" />'
+		return url, url_title, url_linktext
+		
 	def renderuser(self, request):
 		if users.get_current_user():
-			return 'Logged in as: %s' %users.get_current_user().nickname()
+			return users.get_current_user().email()
 		else:
-			return "Not logged in (anonymous)."
+			return "Anonymous"
 			
 class GSHelper:
 	def gs_init(self):

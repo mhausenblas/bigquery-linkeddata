@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:xsd ="http://www.w3.org/2001/XMLSchema#"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"  
+  xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:chartr="http://purl.org/NET/chartr#">
+<head>
+	<title>BigQuery Clients - Demo 0</title>
+
+	<link media="all" href="bqc.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		
+		$("#go").click(function () {
+			var bqeAPIURI = "http://localhost:8080/api";
+			var qstrval = $("#querystr").val();
+			$.ajax({
+				url : bqeAPIURI,
+				data: "query=" + escape(qstrval),
+				dataType: "json",
+				success : function(r) {
+					var b = "";
+					if(!r.error) {
+						b = "<div>Execution time: " + r.metadata.execution_time_in_s + "</div>";
+						b += "<div>Fields: ";
+						var fields = r.data.fields;
+						for(i in fields) {
+							var field = fields[i];
+							b += "<span class='cell'>" + field + "</span>";
+						}
+						b += "</div>";
+						b += "<div>Rows:</div>";
+						var rows = r.data.rows;
+						for(i in rows) {
+							var row = rows[i];
+							b += "<div>";
+							for(k in fields) {
+								b += "<span class='cell'>" + row[k] + "</span>";
+							}
+							b += "</div>";
+						}
+					}
+					else b = "Error during execution: "+ r.error;
+					
+					$("#result").html(b);
+				},
+				error: function(xhr, textStatus, errorThrown){
+					alert("Error: " + textStatus);
+				}
+			});
+		});
+
+	});
+	</script>
+</head>
+<body>
+<div id="main">	
+	<input id="querystr" type="text" value="SELECT subject, predicate, object FROM [lodcloud/rdftable] LIMIT 2" size="80"/> <button id="go">go</button>
+</div>
+<div id="result">
+	Result ...
+</div>
+</body>
+</html>

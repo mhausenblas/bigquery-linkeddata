@@ -6,12 +6,10 @@ body {
 }
 
 h2 { 
-	margin-top: 10pt;
+	margin: 1em 0 0 .6em;
 	font-size: 18pt; 
 	color: #4f4f5f;
-	font-weight: normal;
 }
-
 
 img { 
 	border: 0px solid white; 
@@ -35,10 +33,32 @@ a.home:hover {
 	text-decoration: underline; 
 }
 
+#menu a { 
+	color: #ffa; 
+	text-decoration: none; 
+}
+
+#menu a:hover { 
+	color: #fff;
+}
+
+#menu .misel a { 
+	color: #000; 
+	text-decoration: none; 
+}
+
+.technote a { 
+	color: #939333; 
+	text-decoration: none; 
+}
+
+.technote a:hover { 
+	text-decoration: underline; 
+}
+
 textarea.qin {
 	width: 100%;
 	padding: .5em;
-	margin-bottom: 1em;
 }
 
 fieldset {
@@ -46,6 +66,12 @@ fieldset {
 	-webkit-border-radius: 4px;
 	padding: 1em;
 	border: 3px solid #e6e6e6;
+	background: #f9f9f9;
+}
+
+legend {
+	font-weight: bold;
+	font-size: 120%;
 }
 
 label {
@@ -93,26 +119,33 @@ table#qrlist td.odd {
 }
 
 #currentuser {
-	margin: .5em 0 0 2em;
+	padding: 0.5em 0.5em 2px 0.5em;
 	font-size: 10pt;
-	color: #9e9e9e;
+	color: #909090;
+	background: #0f0f0f;
+	-moz-border-radius: 0px 0px 4px 0px;
+	-webkit-border-radius: 0px 0px 4px 0px;
+	width: 300px;
 }
 
 #menu {
 	position: absolute;
 	right: 0;
 	top: 0;
-	padding: 0.5em;
+	padding: 0.5em 0.5em 2px 0.5em;
 	font-size: 10pt;
 	color: #404040;
 	background: #0f0f0f;
 	-moz-border-radius: 0px 0px 0px 4px;
-	-webkit-border-radius: 4px 4px 4px 4px;
+	-webkit-border-radius: 0px 0px 0px 4px;
+	width: 300px;
+
+	text-align: right;
 }
 
 #header { 
 	margin: 0; 
-	padding: 2em 0 0 0;
+	padding: 1em 0 0 0;
 	text-align: center;
 	font-size: 30pt;
 	font-weight: bold;
@@ -134,16 +167,15 @@ table#qrlist td.odd {
 
 #notequery, #noteupload {
 	font-size: 80%;
-	font-style: italic;
-	color: #606060; 
+	color: #909090; 
 	margin: 0 0 1em 0;
 }
 
 #queryf {
-	margin: 1em
+	margin: 1em 2.5em 2em 2em;
 }
 
-#querfform {
+#querfform {	
 }
 
 #result {
@@ -162,6 +194,7 @@ table#qrlist td.odd {
 }
 
 #querylist {
+	margin: 1em 2.5em 2em 2em;
 }
 
 #schemehint {
@@ -187,11 +220,11 @@ table#qrlist td.odd {
 
 #importf {
 	display: none;
-	margin: 1em
+	margin: 1em 2.5em 2em 2em;
 }
 
 #datasets {
-	margin: .5em 2em 4em 2em; 
+	margin: 1em 2.5em 2em 2em;
 }
 
 #dsstats, #querystats {
@@ -213,14 +246,27 @@ table#qrlist td.odd {
 .byuser {
 	font-size: 80%;
 	text-align: right;
+	color: #a6a6cc;
+}
+
+.qdesc {
+	cursor: pointer;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	background: #ffe;
+	color: #aa0;
+	font-size: 100%;
+	margin: 0 0 0 3em;
+	padding: .1em .1em .1em .5em;
 }
 
 .sq {
+	margin-top: 0;
 	padding: 1em;
-	border: 1px dotted #a0a0a0;
+	border: 2px dotted #a0a0a0;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
-	background: #FFE;
+	background: #ffe;
 	font-size: 80%;
 	font-family: 'Courier New', monospace;
 }
@@ -232,11 +278,24 @@ table#qrlist td.odd {
 }
 
 .misel {
-	color: #f0f0f0;
+	background: #f0f0f0;
+	padding: 2px 5px 6px 3px;
+	-moz-border-radius: 2px 2px 0 0;
+	-webkit-border-radius: 2px 2px 0 0;
 }
+
+.signio {
+	background: #f0f0f0;
+	margin: 0 15px 0 5px;
+	padding: 2px 8px 6px 8px;
+	-moz-border-radius: 2px 2px 0 0;
+	-webkit-border-radius: 2px 2px 0 0;	
+}
+
 
 .cmd {
 	margin: 1em 0 0 0;
+	padding: .2em;
 }
 
 .datasetentry {
@@ -244,7 +303,7 @@ table#qrlist td.odd {
 	font-family: 'Courier New', monospace;
 }
 
-.execqsaved, .deleteqsaved {
+.execqsaved, .editqsaved, .deleteqsaved {
 	cursor: pointer;
 }
 
@@ -256,4 +315,101 @@ table#qrlist td.odd {
 
 .hinfo {
 	cursor: pointer;
+}
+
+.abouttoc {
+	margin: 1em 2.5em 3em 2em;
+	font-size: 90%;
+}
+
+.aboutsec {
+	margin: 1em 2.5em 2em 2em;
+}
+
+.aboutsec h3 {
+	background: #f0f0e0;
+	border-top: 1px solid #ff3;
+	font-size: 100%;
+	padding: .2em .2em .2em .5em;
+}
+
+.aboutsec h4 {
+	font-size: 90%;
+	padding: .2em 0 .2em .5em;
+	margin: 1.5em 0 0 0;
+}
+
+.aboutsec p {
+	padding: .2em .2em .2em .5em;
+	margin: 0;
+	font-size: 90%;
+}
+
+.aboutsec ul {
+	padding: .5em .2em .2em 2em;
+	margin: 1em;
+	font-size: 90%;
+}
+
+.aboutsec pre {
+	font-family: monospace;
+	color: #606000;
+	background-color: #fcfcfc;
+	border: 1px solid #ffc;
+	line-height: 130%;
+	margin: 1em;
+	padding: 1em;
+	overflow: auto;
+}
+
+.aboutsec .inlineimg {
+	margin: 1em;
+	padding: 0;
+	text-align: center;
+}
+
+.aboutsec .technote {
+	background-image: url(/img/technote.png);
+	background-repeat: no-repeat;
+	background-position: 2px 4px;
+	padding: 0em 2em 2em 1.5em;
+	font-size: 80%;
+	margin: 2em 0 0 1em;
+	color: #808080;
+}
+
+.aboutsec .technote:before {
+	content: "Technote";
+	font-size: 100%;
+	font-variant: small-caps;
+	letter-spacing: 0.2ex;
+	font-weight: bold;
+	display: block;
+	border-bottom: 2px solid #f6f6f6;
+	color: #e0e066;
+	margin-bottom: .8em;
+}
+
+.aboutsec .technote table {
+	border: 1px solid #9e9e9e;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	background-color: white;
+	margin: 1em;
+}
+
+.aboutsec .technote table th {
+	text-align: left;
+	border-bottom: 1px solid #6e6e6e;
+	border-right: 1px solid #9e9e9e;
+	font-size: 70%;
+	padding: 5px 10px 5px 5px;
+	color: #808080;
+}
+
+.aboutsec .technote table td {
+	text-align: left;
+	font-size: 70%;
+	border-right: 1px solid #9e9e9e;
+	padding: 5px 10px 5px 5px;
 }

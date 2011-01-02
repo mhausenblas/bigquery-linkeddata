@@ -4,6 +4,7 @@ from google.appengine.ext.blobstore import blobstore
 class BQueryModel(db.Model):
 	author = db.UserProperty()
 	querystr = db.TextProperty()
+	qdesc = db.TextProperty()
 	date = db.DateTimeProperty(auto_now_add=True)
 	
 class NTriplesFileModel(db.Model):

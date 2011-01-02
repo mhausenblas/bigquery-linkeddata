@@ -4,11 +4,15 @@ runtime: python
 api_version: 1
 
 handlers:
+- url: /favicon.ico
+  static_files: img/favicon.ico
+  upload: img/favicon.ico
+  mime_type: image
 - url: /css
   static_dir: css
 - url: /js
   static_dir: js
 - url: /img
-  static_dir: img 
+  static_dir: img
 - url: /.*
   script: bqs_main.py

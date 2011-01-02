@@ -20,14 +20,29 @@ $(function(){
 		var querStr = $("div[id='"+ queryID +"'] div.sq").text();
 		$("#querystr").val(querStr); // set the query string in the text area
 		//executeQuery();
-		//alert("Executing " + queryID);
 	});
 	
 	$(".deleteqsaved").live("click", function() {
 		var queryID = $(this).parent().attr("id");
 		deleteQuery(queryID);
-		//alert("Deleting " + $(this).parent().attr("id"));
 	});
+	
+
+	$(".editqsaved").live("click", function() {
+		var queryID = $(this).parent().attr("id");
+		var querDesc = $("div[id='"+ queryID +"'] div.qdesc").text();
+		//alert("Editing " + queryID);
+		$("div[id='"+ queryID +"'] div.qdesc").html("<input type='input' size='60' value='" + querDesc + "' /> <button class='updateqsaved'>Save</button>");
+	});
+	
+
+	$(".updateqsaved").live("click", function() {
+		var queryID = $(this).parent().parent().attr("id");
+		var querDesc = $("div[id='"+ queryID +"'] div.qdesc input").val();
+		//alert("Updating " + queryID);
+		updateQuery(queryID, querDesc);
+	});
+	
 	
 	$(".hinfo").live("mouseenter", function() {
 		$(this).css("background", "#f0f0ff")
@@ -99,6 +114,8 @@ $(function(){
 
 function saveQuery(){
 	var qstrval = $("#querystr").val();
+	var qdesc = $("#qdesc").val();
+	
 	// validate
 	if(qstrval == "") {
 		alert("Ah! You try to save an empty query. I don't like this ...");
@@ -107,15 +124,32 @@ function saveQuery(){
 	$.ajax({
 		url : "/saveq",
 		type: "POST",
-		data: "querystr=" + escape(qstrval),
+		data: "querystr=" + escape(qstrval) + "&qdesc=" + escape(qdesc),
 		success : function(data) {
-			$("#result").html("Result:" + data);
+			//$("#result").html("Result:" + data);
+			location.reload();
 		},
 		error: function(xhr, textStatus, errorThrown){
 			alert("Error: " + textStatus);
 		}
 	});
 }
+
+function updateQuery(qID, qdesc){	
+	$.ajax({
+		url : "/updateq",
+		type: "POST",
+		data: "querid=" + qID + "&qdesc=" + escape(qdesc),
+		success : function(data) {
+			//$("#result").html("Result:" + data);
+			location.reload();
+		},
+		error: function(xhr, textStatus, errorThrown){
+			alert("Error: " + errorThrown);
+		}
+	});
+}
+
 
 function executeQuery(){
 	var qstrval = $("#querystr").val();
@@ -137,16 +171,18 @@ function executeQuery(){
 }
 
 function deleteQuery(qID){
-	$.ajax({
-		url : "/deleteq",
-		type: "POST",
-		data: "querid=" + qID,
-		success : function(data) {
-			$("#result").html("Result: " + data);
-			location.reload();
-		},
-		error: function(xhr, textStatus, errorThrown){
-			alert("Error: " + textStatus);
-		}
-	});
+	if (confirm("Are you sure you want to delete this query?")) {
+		$.ajax({
+			url : "/deleteq",
+			type: "POST",
+			data: "querid=" + qID,
+			success : function(data) {
+				//$("#result").html("Result: " + data);
+				location.reload();
+			},
+			error: function(xhr, textStatus, errorThrown){
+				alert("Error: " + textStatus);
+			}
+		});
+	}
 }

@@ -6,13 +6,8 @@
 		<script type="text/javascript" src="/js/bqs.js"></script>
 	</head>
 <body>
-	<div id="menu">
-		<span class="misel">Query</span> | <a href="/datasets">Data</a> |  <a href="{{ help_url }}" target="_new">Help</a>
-		{% if isadmin %}
-		| <a href="/admin">Admin</a>
-		{% endif %}
-	</div>
-	<div id="currentuser"><a href="{{ login_url }}" title="change user">{{ login_url_linktext }}</a> {{ usr }}</div>
+	<div id="menu">{{ menu }}</div>
+	<div id="currentuser">{{ cuser }}</div>
 	
 	<div id="header">
 		<a href="/" title="Home" class="home">BigQuery Endpoint</a>
@@ -28,14 +23,17 @@
 					<div id="notequery">
 						Currently, only <code>SELECT</code> queries in <a href="https://code.google.com/apis/bigquery/docs/query-reference.html" target="_new">BigQuery's SQL dialect</a> are supported. I plan to add a support for on-the-fly SPARQL-to-SQL rewrite soon (as well as output in SPARQL result format). Note also the default table schema: <span id="schemehintcontrol">view ...</span>
 					</div>
+					<label>Description</label><br />
+						<input type="input" id="qdesc" size="80" value="" />
 					<div class="cmd">
 						<input id="execq" type="submit" value="Execute" /> <button id="saveq">Save</button>
 					</div>
-					<div id="schemehint">Note that the default table <code>[lodcloud/rdftable]</code> has the following scheme:
-<pre>+--------------------------------------------------------+
-| graph_uri | subject | predicate | object | object_type |
-+--------------------------------------------------------+
-| ...       | ...     | ...       | ...    | ...         |</pre>
+					<div id="schemehint">The default table <code>[lodcloud/rdftable]</code> has the following schema:
+<pre> +--------------------------------------------------------+
+ | graph_uri | subject | predicate | object | object_type |
+ +--------------------------------------------------------+
+ | ...       | ...     | ...       | ...    | ...         |</pre>
+						Read more about the data representation in the respective <a href="/about#tn_import">about section</a> ...
 					</div>
 				</fieldset>
 			</form>
@@ -60,12 +58,6 @@
 		{% endif %}
 	</div>
 
-	<div id="footer">
-		<p>
-			See <a href="http://code.google.com/p/bigquery-linkeddata/">BigQuery For Linked Open Data</a> on Google Code for details.
-			Kudos to FamFamFam's <a href="http://www.famfamfam.com/lab/icons/silk/">Silk icons</a> that are used under the CC Attribution 2.5 Generic license.
-			<a href="http://code.google.com/appengine/"><img src="http://code.google.com/appengine/images/appengine-silver-120x30.gif" alt="Powered by Google App Engine" /></a>
-		</p>
-	</div>
+	<div id="footer">{{ footer }}</div>
 </body>
 </html>

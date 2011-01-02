@@ -11,6 +11,7 @@ from util.bqs_access import *
 from util.bqs_global import *
 from util.bqs_bqwrapper import *
 from util.bqs_queryutil import *
+from util.bqs_elements import *
 from util.nt2csv import *
 
 from bqs_models import *
@@ -21,23 +22,27 @@ class OverviewHandler(webapp.RequestHandler):
 		squeries = bqquery.fetch(20)
 		queryh = QueryHelper()
 		squeries = [queryh.render_query(squery) for squery in squeries]
-		currentuser = UserUtility()
-		url, url_linktext = currentuser.usercredentials(self.request)
-		
 		templatev = {
 			'querystring' : GlobalUtility.DEFAULT_QUERY_STRING,
 			'hasresults' :  False,
 			'queryresults' : None,
 			'hassqueries' :  True if (len(squeries) > 0) else False,
 			'bqueries': squeries,
-			'usr' : currentuser.renderuser(self.request),
-			'login_url': url,
-			'login_url_linktext': url_linktext,
-			'help_url' : GlobalUtility.HELP_LINK,
-			'isadmin' : users.is_current_user_admin()
+			'cuser' : BQSMenu().user_content(self.request),
+			'menu' : BQSMenu().menu_content('Query'),
+			'footer' : BQSFooter().footer_content()
 		}
 		path = os.path.join(os.path.dirname(__file__), 'index.html')
-		self.response.headers.add_header("Access-Control-Allow-Origin", "*")
+		self.response.out.write(template.render(path, templatev))
+
+class AboutHandler(webapp.RequestHandler):
+	def get(self):
+		templatev = {
+			'cuser' : BQSMenu().user_content(self.request),
+			'menu' : BQSMenu().menu_content('About'),
+			'footer' : BQSFooter().footer_content()
+		}
+		path = os.path.join(os.path.dirname(__file__), 'about.html')
 		self.response.out.write(template.render(path, templatev))
 
 class ExecQueryHandler(webapp.RequestHandler):
@@ -46,8 +51,6 @@ class ExecQueryHandler(webapp.RequestHandler):
 		squeries = bqquery.fetch(10)
 		queryh = QueryHelper()
 		squeries = [queryh.render_query(squery) for squery in squeries]
-		currentuser = UserUtility()
-		url, url_linktext = currentuser.usercredentials(self.request)
 
 		# execute the query if a query string is present:
 		qstr = self.request.get('querystr')
@@ -63,11 +66,9 @@ class ExecQueryHandler(webapp.RequestHandler):
 				'queryschema' : schema,
 				'hassqueries' :  True if (len(squeries) > 0) else False,
 				'bqueries': squeries,
-				'usr' : currentuser.renderuser(self.request),
-				'login_url': url,
-				'login_url_linktext': url_linktext,
-				'help_url' : GlobalUtility.HELP_LINK,
-				'isadmin' : users.is_current_user_admin()
+				'cuser' : BQSMenu().user_content(self.request),
+				'menu' : BQSMenu().menu_content('Query'),
+				'footer' : BQSFooter().footer_content()
 			}
 			path = os.path.join(os.path.dirname(__file__), 'index.html')
 			self.response.out.write(template.render(path, templatev))
@@ -78,22 +79,18 @@ class ExecQueryHandler(webapp.RequestHandler):
 				'queryresults' : None,
 				'hassqueries' :  True if (len(squeries) > 0) else False,
 				'bqueries': squeries,
-				'usr' : currentuser.renderuser(self.request),
-				'login_url': url,
-				'login_url_linktext': url_linktext,
-				'help_url' : GlobalUtility.HELP_LINK,
-				'isadmin' : users.is_current_user_admin()
+				'cuser' : BQSMenu().user_content(self.request),
+				'menu' : BQSMenu().menu_content('Query'),
+				'footer' : BQSFooter().footer_content()
 			}
 			path = os.path.join(os.path.dirname(__file__), 'index.html')
 			self.response.out.write(template.render(path, templatev))
 
 	def render_results(self, schema, results, elapsed):
-		
 		if type(schema).__name__=='DatabaseError':
 		     return '<div class="errormsg">%s</div>' %schema
 		elif type(schema).__name__=='HTTPError':
 		     return '<div class="errormsg">%s</div>' %schema
-		
 		if elapsed >= 60:
 			elapsed = time.strftime('%Mmin %Ss', time.gmtime(elapsed))
 		else:
@@ -121,48 +118,77 @@ class ExecQueryHandler(webapp.RequestHandler):
 class SaveQueryHandler(webapp.RequestHandler):
 	def post(self):
 		try:
-			logging.info("Saving query ...")
 			bqm = BQueryModel()
 			if users.get_current_user():
 				bqm.author = users.get_current_user()
 			bqm.querystr = self.request.get('querystr')
+			qdesc = self.request.get('qdesc')
+			if qdesc:
+				bqm.qdesc = qdesc
+			else:
+				bqm.qdesc = "-"
 			qkey = bqm.put()
-			self.response.out.write('saved query.')
+			self.response.out.write('Saved query %s' %qkey)
 		except Error:
 			self.error(500)
+			
+class UpdateQueryHandler(webapp.RequestHandler):
+	def post(self):
+		bqk = self.request.get('querid')
+		bqm = db.get(db.Key(bqk))
+		qdesc = self.request.get('qdesc')
+		if qdesc:
+			bqm.qdesc = qdesc
+		else:
+			bqm.qdesc = "-"
+		bqm.put()
+		logging.info("Updated query %s with new description %s" %(bqk, bqm.qdesc))
 	
 class DeleteQueryHandler(webapp.RequestHandler):
 	def post(self):
 		try:
 			if users.is_current_user_admin():
-				logging.info("Deleting query ...")
 				bqk = self.request.get('querid')
 				db.delete(db.Key(bqk))
+				logging.info("Deleting query %s" %bqk)
 				self.response.out.write('deleted query.')
 			else:
 				self.response.out.write('you are not allowed to delete a query!')
 		except Error:
 			self.error(500)
 
-
 class ImportHandler(webapp.RequestHandler):
 	def get(self):
 		upload_url = blobstore.create_upload_url('/upload')
-		datasetlinks = self.listds()
-		currentuser = UserUtility()
-		url, url_linktext = currentuser.usercredentials(self.request)
+		
+		# use cached version of dataset list rendering if available:
+		datasetlinks = memcache.get('bqs_ds_list')
+		if datasetlinks is None:
+			datasetlinks = self.listds()
+			memcache.add('bqs_ds_list', datasetlinks, 604800) # expiration time set to one week (60*60*24*7)
+			logging.info("Updated dataset list in cache")
+		else:
+			logging.info("Using cached version of dataset list")
+			
+		# use cached version of dataset stats rendering if available:
+		datasetstats = memcache.get('bqs_ds_stats')
+		if datasetstats is None:
+			datasetstats = self.render_dataset_stats()
+			memcache.add('bqs_ds_stats', datasetstats, 604800) # expiration time set to one week (60*60*24*7)
+			logging.info("Updated dataset stats in cache")
+		else:
+			logging.info("Using cached version of dataset stats")
+		
 		templatev = {
 			'upload_url': upload_url,
 			'datasetlinks': datasetlinks,
-			'datasetstats': self.render_dataset_stats(),
-			'usr' : currentuser.renderuser(self.request),
-			'login_url': url,
-			'login_url_linktext': url_linktext,
-			'help_url' : GlobalUtility.HELP_LINK,
-			'isadmin' : users.is_current_user_admin()
+			'datasetstats': datasetstats,
+			'cuser' : BQSMenu().user_content(self.request),
+			'isadmin' : users.is_current_user_admin(),
+			'menu' : BQSMenu().menu_content('Data'),
+			'footer' : BQSFooter().footer_content()
 		}
 		path = os.path.join(os.path.dirname(__file__), 'import.html')
-		self.response.headers.add_header("Access-Control-Allow-Origin", "*")
 		self.response.out.write(template.render(path, templatev))
 	
 	def listds(self):
@@ -185,8 +211,7 @@ class ImportHandler(webapp.RequestHandler):
 				return  resstr%exactnumtriples[0]
 		else:
 			resstr = '<div id="dsstats">Total number of triples: %s</div>'
-			return  resstr%0 
-			 
+			return  resstr%0
 		
 	def render_dataset(self, bobject):
 		if not bobject.name.find(GlobalUtility.RDFTABLE_OBJECT) >= 0: # only process stuff from import object, not in the table object
@@ -247,6 +272,9 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 			gsh.gs_init()
 			target_filename = ".".join([blob_info.filename.rsplit(".")[0], GlobalUtility.DATA_POSTFIX])
 			self.gs_copy(csv_str, target_filename, self.request.get('tgraphURI')) # copy CSV file to Google storage
+			# empty cache entries for dataset list and dataset stats rendering so that users get the newly imported file
+			memcache.delete('bqs_ds_list') 
+			memcache.delete('bqs_ds_stats')
 			self.init_import(target_filename) # start the import from source file into BigQuery table
 			self.redirect('/datasets')
 		else:
@@ -303,6 +331,7 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 	def init_import(self, source_file):
 		bqw = BigQueryWrapper()
 		thandle = bqw.import_table(source_file)
+		# TODO: add time to import status (rather than thandle alone) 
 		memcache.add(source_file, thandle, 3600) # store import ID of upload file in memchache for 1h to be able to check status
 	
 class GarbageCollectUploadsHandler(webapp.RequestHandler):

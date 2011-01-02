@@ -1,0 +1,52 @@
+body { 
+	margin: 0px; 
+	padding: 0px; 
+	background: #f0f0f0;
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;  
+}
+
+h2 { 
+	margin: 1em 0 0 .6em;
+	font-size: 18pt; 
+	color: #4f4f5f;
+}
+
+img { 
+	border: 0px solid white; 
+}
+
+a { 
+	color: #44A; 
+	text-decoration: none; 
+}
+
+a:hover { 
+	text-decoration: underline; 
+}
+
+a.home { 
+	color: #000; 
+	text-decoration: none; 
+}
+
+a.home:hover { 
+	text-decoration: underline; 
+}
+
+#main, #result { 
+	background: #fff;
+	margin: 1em 2em 1em 2em; 
+	padding: .5em 1em .5em 1em; 
+	-moz-border-radius: 8px 8px 8px 8px;
+	-webkit-border-radius: 8px 8px 8px 8px;
+	border-bottom: 1px solid #e0e0e0;
+	-moz-box-shadow: 3px 3px 4px #000;
+	-webkit-box-shadow: 3px 3px 4px #000;
+	box-shadow: 3px 3px 4px #000;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');	
+}
+
+.cell {
+	margin: 1em;
+}

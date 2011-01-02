@@ -10,3 +10,9 @@ see scripts/bqs_import.sh for importing data into BQS Endpoint
 check import status with:
 
 bq import_status lodcloud/rdftable 81bbae7030fa680d
+
+===
+use the following for distinct values (in case of triple duplications while import):
+
+SELECT subject, predicate, object FROM [lodcloud/rdftable] GROUP BY subject, predicate, object
+

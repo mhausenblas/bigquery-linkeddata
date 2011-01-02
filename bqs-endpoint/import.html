@@ -6,14 +6,8 @@
 		<script type="text/javascript" src="/js/bqs.js"></script>
 	</head>
 <body>	
-	<div id="menu">
-		<a href="/">Query</a> | <span class="misel">Data</span> | <a href="{{ help_url }}" target="_new">Help</a>
-		{% if isadmin %}
-		| <a href="/admin">Admin</a>
-		{% endif %}
-	</div>
-	
-	<div id="currentuser"><a href="{{ login_url }}" title="change user">{{ login_url_linktext }}</a> {{ usr }}</div>
+	<div id="menu">{{ menu }}</div>
+	<div id="currentuser">{{ cuser }}</div>
 	
 	<div id="header">
 		<a href="/" title="Home" class="home">BigQuery Endpoint</a>
@@ -51,12 +45,6 @@
 		{% endif %}
 	</div>
 
-	<div id="footer">
-		<p>
-			See <a href="http://code.google.com/p/bigquery-linkeddata/">BigQuery For Linked Open Data</a> on Google Code for details.
-			Kudos to FamFamFam's <a href="http://www.famfamfam.com/lab/icons/silk/">Silk icons</a> that are used under the CC Attribution 2.5 Generic license.
-			<a href="http://code.google.com/appengine/"><img src="http://code.google.com/appengine/images/appengine-silver-120x30.gif" alt="Powered by Google App Engine" /></a>
-		</p>
-	</div>
+	<div id="footer">{{ footer }}</div>
 </body>
 </html>

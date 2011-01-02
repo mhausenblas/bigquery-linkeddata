@@ -1,0 +1,266 @@
+<html>
+	<head>
+		<title>About - BigQuery Endpoint</title>
+		<link type="text/css" rel="stylesheet" href="/css/style.css" />
+		<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="/js/bqs.js"></script>
+	</head>
+<body>
+	<div id="menu">{{ menu }}</div>
+	<div id="currentuser">{{ cuser }}</div>
+	
+	<div id="header">
+		<a href="/" title="Home" class="home">BigQuery Endpoint</a>
+	</div>
+
+	<div id="main">
+		<h2>About</h2>
+		<div class="abouttoc">
+			<p>With the BigQuery Endpoint (BQE) application you can essentially do the following things:</p>
+			<ul>
+				<li><a href="#generic">Use it as a Generic BigQuery Endpoint</a></li>
+				<li>
+					<a href="#lod">Use it to query Linked Open Data (LOD)</a>
+					<ul>
+						<li><a href="#lod-import">Importing data</a></li>
+						<li><a href="#lod-query">Querying data</a></li>
+					</ul>
+				</li>
+			</ul>
+			<p>You can also programmatically access the BigQuery Endpoint using the <a href="#bqe-api">API ...</a></p>
+		</div>
+		
+		<div class="aboutsec">
+			<h3 id="generic">Generic BigQuery Endpoint</h3>
+			<p>
+				You can use the BigQuery Endpoint (BQE) to execute a query against any BigQuery dataset. We call this 'generic BigQuery' processing in the following. Some <a href="https://code.google.com/apis/bigquery/docs/sample-datasets.html">sample datasets</a> are available via the BigQuery homepage. If you have a <a href="https://code.google.com/apis/storage/">Google Storage</a> account as well as a <a href="https://code.google.com/apis/bigquery/">BigQuery</a> account, you can <a href="https://code.google.com/apis/bigquery/docs/getting-started.html#creatingandmanagingtables">create your own datasets</a> and then use BQE to query them. Note that currently only the <a href="https://code.google.com/apis/bigquery/docs/query-reference.html">SELECT query</a> type is supported in the BQE.
+			</p>
+			<p>
+				For example, using the <a href="https://code.google.com/apis/bigquery/docs/dataset-wikipedia.html">Wikipedia Revision History</a> dataset from the BigQuery sample datasets, the following query lists the TOP10 edits of Wikipedia pages that have the word 'government' somewhere in the title:
+			</p>
+<pre>
+SELECT TOP(title, 10), COUNT(*) FROM [bigquery/samples/wikipedia] 
+WHERE title CONTAINS 'government' 
+</pre>
+			<p>
+				When you execute the above query in BQE's <a href="/">Query</a> page you should see something like the following:
+			</p>
+			<div class="inlineimg">
+				<img src="/img/about/bqe-about01.png" alt="BQE example query result" />
+			</div>
+			<p>
+				To sum up, BQE's generic mode is a nice way to become familiar with BigQuery. You can query virtually any BigQuery dataset you find in the wild. However, it is limited to querying the dataset and eventually looking at the results.    
+			</p>
+			<div class="technote">
+				Note that, depending on the complexity of the query and the size of the dataset you use, you might run into timeouts. 
+				There is nothing I can do about it at the moment, but happy to hear from you how I could overcome this issue.
+			</div>
+		</div>
+		
+		<div class="aboutsec">
+			<h3 id="lod">Linked Open Data (LOD) Endpoint</h3>
+			<p>
+				The the BigQuery Endpoint (BQE) supports a mode to query <a href="http://lod-cloud.net/">Linked Open Data</a> (LOD). In this mode, you use a dedicated table, the so called 'default table', located at <code>[lodcloud/rdftable]</code>. Regarding the LOD mode, there are two steps one should be aware of:  <strong>import</strong> data and <strong>query</strong> it.
+			</p>
+			
+			<h4 id="lod-import">Importing data into the default table</h4>
+			<p>
+				Currently, only administrators can import data into the default table <code>[lodcloud/rdftable]</code>. This is a restriction I plan to remove soon by introducing a model where every signed-in user can trigger an import. Once the RDF data file is uploaded, it would then be put into the import queue and would ultimately need confirmation by an admin to be imported into the default table.</p>
+			<p>
+				If you're an admin, you should see the 'Import' link in the right lower area of the dataset list:
+			</p>
+			<div class="inlineimg">
+				<img src="/img/about/bqe-about02.png" alt="BQE import link" />
+			</div>
+			<p>
+				In the import area, you select a data file in the RDF/<a href="http://www.w3.org/TR/rdf-testcases/#ntriples">NTriples</a> serialisation format.
+				If your data is not yet in this format, use services such as <a href="http://any23.org/">any23</a> to convert it. You can also specify a graph URI that serves as a sort of label for the imported triples. Such a graph URI is typically used to record provenance, so for example, an RDF data file you have downloaded from <code>http://data.example.org</code> would usually get exactly this as the graph URI (to remember where it came from). You can then use the graph URI in the query to restrict the scope (see below for some examples).
+			</p>
+			<div class="inlineimg">
+				<img src="/img/about/bqe-about03.png" alt="BQE import area" />
+			</div>
+			<div class="technote" id="tn_import">
+				What happens behind the scene during import is the following:
+				<ol>
+					<li>
+						The RDF/NTriples data file is uploaded into the Google App Engine <a href="http://code.google.com/appengine/docs/python/blobstore/overview.html">blob store</a>.
+					</li>
+					<li>The data is <a href="http://code.google.com/p/bigquery-linkeddata/source/browse/tools/nt2csv.py">converted</a> into the <a href="http://code.google.com/apis/bigquery/docs/uploading.html#createtabledata">BigQuery-compliant CSV</a> format.
+					</li>
+					<li>Then, the data is <a href="https://code.google.com/apis/storage/docs/gspythonlibrary.html">copied</a> over to Google Storage into a predefined bucket (<code>gs://lodcloud/</code>).
+					</li>
+					<li>Eventually, the data is <a href="http://code.google.com/apis/bigquery/docs/uploading.html#importtable">imported</a> into a BigQuery table, the above mentioned default table <code>[lodcloud/rdftable]</code>.
+					</li>
+				</ol>
+				The default table <code>[lodcloud/rdftable]</code> has the following <a href="http://bigquery-linkeddata.googlecode.com/hg/schema/quintuple.scheme">layout</a>:
+				<table border="0" cellspacing="5" cellpadding="5">
+					<tr><th>graph_uri</th><th>subject</th><th>predicate</th><th>object</th><th>object_type</th></tr>
+					<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+				</table>
+				This means that the following RDF triple:
+<pre>
+&lt;http://example.org/#this&gt; &lt;http://example.org/p1&gt; &quot;abc english&quot;@en .
+</pre>
+				with a graph URI <code>http://example.org/test</code> would be represented in <code>[lodcloud/rdftable]</code> as follows:
+				<table border="0" cellspacing="5" cellpadding="5">
+					<tr><th>graph_uri</th><th>subject</th><th>predicate</th><th>object</th><th>object_type</th></tr>
+					<tr><td>http://example.org/test</td><td>http://example.org/#this</td><td>http://example.org/p1</td><td>abc english</td><td>en</td></tr>
+				</table>
+			</div>
+			
+			<h4 id="lod-query">Querying data from the default table</h4>
+			<p>
+				Now, the real fun in BQE's LOD mode is for sure querying the data contained in the default table <code>[lodcloud/rdftable]</code>.
+				Let's start with a very simple example - listing all the graphs that are present:
+			</p>
+<pre>
+SELECT graph_uri AS graphs FROM [lodcloud/rdftable] GROUP BY graphs
+</pre>
+			<p>
+			which should yield something like:
+			</p>
+			<div class="inlineimg">
+				<img src="/img/about/bqe-about04.png" alt="BQE LOD query all graphs result" />
+			</div>
+			<p>
+				You can use the graph URIs from the previous example to 'scope' a query. Let's assume you're interested in things that are 'the same'. 
+				Now, you use the following query to determine what things in fact are 'the same':
+			</p>
+<pre>
+SELECT subject AS thing, object AS otherthing FROM [lodcloud/rdftable] 
+WHERE predicate='http://www.w3.org/2002/07/owl#sameAs'
+</pre>
+			<p>The above query lists things that are supposedly the same. However, you get things from different datasets mixed up together. Graph URIs to the rescue. Using the following query with a graph URI resolves this issue:
+			</p>
+<pre>
+SELECT subject AS thing, object AS otherthing FROM [lodcloud/rdftable] 
+WHERE predicate='http://www.w3.org/2002/07/owl#sameAs' AND graph_uri='http://dbpedia.org'
+</pre>
+			<p>
+			Limiting the scope to things from DBpedia (assuming that <code>http://dbpedia.org</code> stands for 'things from DBpedia') we get a result like:
+			</p>
+			<div class="inlineimg">
+				<img src="/img/about/bqe-about05.png" alt="BQE LOD query same things scoped result" />
+			</div>
+			<div class="technote">
+				Technically, the graph URIs could really be anything. It doesn't even have to be a URI.
+				My old pal Nathan has written <a href="http://webr3.org/blog/semantic-web/rdf-named-graphs-vs-graph-literals/">more about this interesting topic</a>, but don't worry if you don't 'get' it. Just think of it as a 'label' for a bag of things. I typically use the HTTP URI where I've downloaded the original data file from (or at least the top-level/pay-level-domain part of it).
+			</div>
+			<p>
+				Importing data sometimes yield duplicated triples. To get distinct values you'd use the following query (note the usage of 'GROUP BY'):
+			</p>
+<pre>
+SELECT subject, predicate, object FROM [lodcloud/rdftable] GROUP BY subject, predicate, object LIMIT 10
+</pre>
+			<p>
+				In contrast to BQE's generic mode, which is restricted to manual interaction via the Web browser, the LOD mode supports programmatic interaction via a dedicated API. This means that all queries targeting the default table can be automated, see below for the details.
+			</p>
+		</div>
+		
+		<div class="aboutsec">
+			<h3 id="bqe-api">BigQuery Endpoint API</h3>
+			<p>
+				The BigQuery Endpoint (BQE) API is a simple HTTP GET API available under the <a href="/api/">api/</a> space. Two parameters are currently supported: <code>&amp;query</code> and <code>&amp;metadata</code>.
+			</p>
+
+			<h4 id="bqe-api-query">Querying LOD data with <code>&amp;query</code></h4>
+			<p>
+			 To execute a query, specify a query string via the <code>&amp;query</code> parameter. The following is an example for an BQE API query call:
+			</p>
+<pre>
+ /api?query=SELECT%20subject%2C%20predicate%2C%20object%20FROM%20%5Blodcloud%2Frdftable%5D%20LIMIT%203
+</pre>
+			<p>
+				As a result of the query, the API responses with a JSON-encoded list of fields and rows and some metadata about the query. If you <a href="/api?query=SELECT%20subject%2C%20predicate%2C%20object%20FROM%20%5Blodcloud%2Frdftable%5D%20LIMIT%203" target="_new">execute the above query</a>, you would get something like the following:
+			</p>
+<pre>
+{
+ data: {
+  fields: [ "subject","predicate", "object"],
+  rows: [
+          [ http://sw-app.org/mic.xhtml, http://www.w3.org/1999/xhtml/vocab#meta, http://sw-app.org/mic.rdf]
+          [ http://sw-app.org/mic.xhtml, http://www.w3.org/1999/xhtml/vocab#rdfs:seeAlso, http://sw-app.org/mic.rdf]
+          [ http://sw-app.org/mic.xhtml, http://purl.org/dc/terms/title, "Michael Hausenblas"]
+  ]
+ }
+ metadata: {
+  execution_time_in_s: "0.907627105713",
+  original_query: "SELECT subject, predicate, object FROM [lodcloud/rdftable] LIMIT 3",
+  result_format: "simple"
+ }
+}	
+</pre>
+			<p>
+				Notes regarding the usage of the BQE API:
+			</p>
+			<ul>
+				<li>
+					Only <code>SELECT</code> queries against the LOD default table <code>[lodcloud/rdftable]</code> are allowed.
+					If you try anything else, the API will respond with a JSON-encoded error message. For example, if you try to query a table other than the default table you'll get:
+<pre>
+ {"error": "BQE API calls are restricted to the default table [lodcloud/rdftable]"}
+</pre>
+				</li>
+				<li>
+					The API is <a href="http://enable-cors.org/" title="enable cross-origin resource sharing">CORS-enabled</a>.
+				</li>
+			</ul>
+			<div class="technote">
+			Because the BQE API is CORS-enabled, you can directly access it from JavaScript, such as shown in the following exemplary jQuery code:
+<pre>
+$.ajax({
+	url : &quot;http://bqs-endpoint.appspot.com/api&quot;,
+	data: &quot;query=&quot; + escape(querstr),
+	dataType: &quot;json&quot;,
+	success : function(r) {
+		var b = &quot;&quot;;
+		if(!r.error) {
+			b += &quot;&lt;div&gt;Fields: &quot;;
+			var fields = r.data.fields;
+			for(i in fields) {
+				var field = fields[i];
+				b +=  field ;
+			}
+			b += &quot;&lt;/div&gt;&quot;;
+			b += &quot;&lt;div&gt;Rows:&lt;/div&gt;&quot;;
+			var rows = r.data.rows;
+			for(i in rows) {
+				var row = rows[i];
+				b += &quot;&lt;div&gt;&quot;;
+				for(k in fields) {
+					b += row[k];
+				}
+				b += &quot;&lt;/div&gt;&quot;;
+			}
+		}
+		$(&quot;#result&quot;).html(b);
+	}
+});	
+</pre>
+			</div>
+			
+			<h4 id="bqe-api-metadata">Retrieving LOD metadata with <code>&amp;metadata</code></h4>
+			<p>
+				To retrieve metadata about the BQE endpoint, use the <code>&amp;metadata</code> parameter. That is, a metadata call (<a href="/api?metadata"><code>/api?metadata</code></a>) yields a <a href="http://www.w3.org/2001/sw/interest/void/">voiD description</a> of the BQE's content like:
+			</p>
+<pre>
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+@prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
+@prefix void: &lt;http://rdfs.org/ns/void#&gt; .
+@prefix : &lt;#&gt; .
+
+:bqe-all rdf:type void:Dataset ;
+         foaf:homepage &lt;http://bqs-endpoint.appspot.com/&gt; ;
+         dcterms:title &quot;BigQuery Endpoint&quot; ;
+         dcterms:description &quot;A wrapper and public access point for BigQuery tables and queries with LOD support.&quot; ;
+         void:triples 12525 .
+</pre>
+		</div>
+		
+	</div>
+
+	<div id="footer">{{ footer }}</div>
+</body>
+</html>
